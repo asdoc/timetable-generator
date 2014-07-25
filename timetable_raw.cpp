@@ -4,10 +4,23 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include "timetable.h"
 using namespace std;
 
-void timetable::init() {
+int batch[16][5][3]; /* stores the time table for labs */
+bool lab_status[4][5][3]; /* Stores the lab status (if there is a lab or no) for each of the 4 classes */
+int labs_remaining[16][6]; /* stores the list of labs remaining per batch */
+int labs_class_count[4]; /* stores the number of labs covered for each class */
+int labs_occupied[6][5][4]; /* stores the count of the labs occupied per lab subject */
+							/* 4 for handling the second shift */
+int labs_maxlimit[6];
+
+vector <int> teachers_count[6];	/* stores the teachers load for respective labs */
+vector <string> teachers_name[6]; /* stores the teachers names for respective labs */
+
+bool teacher_assigned_to_batch[16][5][3]; /* true if a teacher is assigned to the batch */
+int teachers[6][10][5][4]; /* stores time table for teachers as [lab][teacher_number][day][slot] */
+
+void init() {
 	for(int i=0;i<16;i++) {
 		for(int j=0;j<5;j++) {
 			for(int k=0;k<3;k++) {
@@ -56,7 +69,7 @@ void timetable::init() {
 	}
 }
 
-string timetable::batch_no_to_str(int batch_number) {
+string batch_no_to_str(int batch_number) {
 	string ans = "Batch";
 	if(batch_number==0) {
 		ans = ".......";
@@ -75,7 +88,7 @@ string timetable::batch_no_to_str(int batch_number) {
 	return ans;
 }
 
-string timetable::get_lab_name(int lab_number) {
+string get_lab_name(int lab_number) {
 	switch(lab_number) {
 		case 0:
 			return ".... ";
@@ -93,7 +106,7 @@ string timetable::get_lab_name(int lab_number) {
 	return "";
 }
 
-bool timetable::assign_lab_teachers(int batch_number,int lab) {
+bool assign_lab_teachers(int batch_number,int lab) {
 	int add_div=1;
 	if(batch_number<12) add_div=0;
 	if(batch_number==16) {
@@ -142,7 +155,7 @@ bool timetable::assign_lab_teachers(int batch_number,int lab) {
 	return true;
 }
 
-void timetable::randomise() {
+void randomise() {
 	int x1,x2,y1,y2;
     srand ( time(NULL) );
 	for(int i=0;i<6;i++) {
@@ -187,7 +200,7 @@ void timetable::randomise() {
 	}
 }
 
-bool timetable::check_filled() {
+bool check_filled() {
 	bool to_ret = true;
 	for(int i=0;i<5;i++) {
 		for(int j=1;j<3;j++) {
@@ -226,7 +239,7 @@ bool timetable::check_filled() {
 	return true;
 }
 
-bool timetable::find_c4(int day, int session) {
+bool find_c4(int day, int session) {
 	/* 
 		function for class c4
 		should handle 12 to 15 batches
@@ -358,7 +371,7 @@ bool timetable::find_c4(int day, int session) {
 }
 
 
-bool timetable::find_c3(int day, int session) {
+bool find_c3(int day, int session) {
 	/* 
 		function for class c3
 		should handle 8 to 11 batches
@@ -491,7 +504,7 @@ bool timetable::find_c3(int day, int session) {
 		possible = find_c3(day,session+1);
 }
 
-bool timetable::find_c2(int day, int session) {
+bool find_c2(int day, int session) {
 	/* 
 		function for class c2
 		should handle 4 to 7 batches
@@ -625,7 +638,7 @@ bool timetable::find_c2(int day, int session) {
 }
 
 
-bool timetable::find_c1(int day, int session) {
+bool find_c1(int day, int session) {
 	/* 
 		function for class c1
 		should handle first 4 batches
@@ -762,34 +775,63 @@ bool timetable::find_c1(int day, int session) {
 	
 }
 
-/* start of interface functions */
-string timetable::get_batch_lab(int batch_number, int day, int slot) {
-	/* returns the name of the lab for the batch at a give day and slot */
-	return get_lab_name(batch[batch_number][day][slot]);
-}
-
-int timetable::set_teachers_data(int lab_number, vector<int> teachers_count_list, vector<string> teachers_name_list) {
-	/* sets the teachers name and load for lab lab_number */
-	if( lab_number<1 || lab_number>5 ) {
-		return 0;
-	}
-	teachers_count[lab_number] = teachers_count_list;
-	teachers_name[lab_number] = teachers_name_list;
-	return 1;
-}
-
-string timetable::get_teacher_batch(int lab_number, int teacher_number, int day, int slot) {
-	/* returns the name of the batch assigned to the teacher teacher_number of lab lab_number */
-	return batch_no_to_str(teachers[lab_number][teacher_number][day][slot]);
-}
-/* end of interface functions */
-
-void timetable::execute() {
-	/* Generates the timetable,	should be called after the input is specified */
+int main() {
+	cout<<"Initialising..."<<endl;
 	init();
+	cout<<"Generating timetable for labs..."<<endl;
 	find_c1(0,0);
 	while(!check_filled())
 		randomise();
+	cout<<"Generated timetable for labs!!"<<endl;
 	int current_count_for_print=1;
+	for(int i=0;i<16;i++) {
+		if(i%4==0) {
+			cout<<"Class SE"<<current_count_for_print<<"\n\n";
+			current_count_for_print+=1;
+		}
+		for(int j=0;j<3;j++) {
+			for(int k=0;k<5;k++) {
+				cout<<get_lab_name(batch[i][k][j])<<" ";
+			}
+			cout<<"\n";
+		}
+		cout<<"\n";
+		if(i%4==3) {
+			cout<<"------------------------------------------------\n";
+		}
+	}
+	cout<<"Assigning teachers to labs..."<<endl;
+	for(int i=1;i<=5;i++) {
+		cout<<"Enter the number of teachers for lab "<<i<<": ";
+		int n;
+		cin>>n;
+		cout<<"Enter the name of "<<n<<" teachers for lab "<<i<<": ";
+		for(int j=0;j<n;j++) {
+			string tmp;
+			cin>>tmp;
+			teachers_name[i].push_back(tmp);
+		}
+		cout<<"Enter the load of "<<n<<" teachers for lab "<<i<<": ";
+		for(int j=0;j<n;j++) {
+			int tmp;
+			cin>>tmp;
+			teachers_count[i].push_back(tmp);
+		}
+	}
 	for(int i=1;i<6;i++) assign_lab_teachers(0,i);
+	
+	for(int i=1;i<6;i++) {
+		cout<<"--------------------------------------------\n";
+		cout<<get_lab_name(i)<<" lab\n";
+	
+		for(int j=0;j<teachers_count[i].size();j++) {
+			cout<<teachers_name[i][j]<<"\n";
+			for(int l=0;l<4;l++) {
+				for(int k=0;k<5;k++) {
+					cout<<batch_no_to_str(teachers[i][j][k][l])<<" ";
+				}
+				cout<<"\n";
+			}
+		}
+	}
 }

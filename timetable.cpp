@@ -7,7 +7,8 @@
 #include "timetable.h"
 using namespace std;
 
-void timetable::init() {
+timetable::timetable() {
+	total_teachers=0;
 	for(int i=0;i<16;i++) {
 		for(int j=0;j<5;j++) {
 			for(int k=0;k<6;k++) {
@@ -37,12 +38,10 @@ void timetable::init() {
 	labs_maxlimit[4]=2;
 	labs_maxlimit[5]=2;
 	
-	for(int i=0;i<6;i++) {
-		for(int j=0;j<10;j++) {
-			for(int k=0;k<5;k++) {
-				for(int l=0;l<8;l++) {
-					teachers[i][j][k][l]=0;
-				}
+	for(int i=0;i<60;i++) {
+		for(int j=0;j<5;j++) {
+			for(int k=0;k<8;k++) {
+				teachers[i][j][k]=0;
 			}
 		}
 	}
@@ -89,8 +88,8 @@ bool timetable::assign_lab_teachers(int batch_number,int lab) {
 	int add_div=1;
 	if(batch_number<12) add_div=0;
 	if(batch_number==16) {
-		for(int j=0;j<teachers_count[lab].size();j++) {
-			if(teachers_count[lab][j]!=0) return false;
+		for(int j=0;j<lab_teachers_count[lab].size();j++) {
+			if(lab_teachers_count[lab][j]!=0) return false;
 		}
 		return true;
 	}
@@ -105,31 +104,31 @@ bool timetable::assign_lab_teachers(int batch_number,int lab) {
 			}
 		}
 	}
-	for(int j=0;j<teachers_count[lab].size();j++) {
+	for(int j=0;j<lab_teachers_count[lab].size();j++) {
 		bool possible = true;
 		for(int k=0;k<day_store.size();k++) {
-			if(teachers[lab][j][day_store[k]][2*(slot_store[k]+add_div)]!=0) possible = false;
-			if(teachers_count[lab][j]==0) possible=false;
+			if(teachers[lab_teachers_index[lab][j]][day_store[k]][2*(slot_store[k]+add_div)]!=0) possible = false;
+			if(lab_teachers_count[lab][j]==0) possible=false;
 		}
 		if(possible) {
-			teachers_count[lab][j]-=1;
+			lab_teachers_count[lab][j]-=1;
 			for(int k=0;k<day_store.size();k++) {
-				teachers[lab][j][day_store[k]][2*(slot_store[k]+add_div)]=batch_number+1;
-				teachers[lab][j][day_store[k]][(2*(slot_store[k]+add_div))+1]=batch_number+1;
+				teachers[lab_teachers_index[lab][j]][day_store[k]][2*(slot_store[k]+add_div)]=batch_number+1;
+				teachers[lab_teachers_index[lab][j]][day_store[k]][(2*(slot_store[k]+add_div))+1]=batch_number+1;
 			}
 			if(assign_lab_teachers(batch_number+1,lab)) return true;
 			else {
-				teachers_count[lab][j]+=1;
+				lab_teachers_count[lab][j]+=1;
 				for(int k=0;k<day_store.size();k++) {
-					teachers[lab][j][day_store[k]][2*(slot_store[k]+add_div)]=0;
-					teachers[lab][j][day_store[k]][(2*(slot_store[k]+add_div))+1]=0;
+					teachers[lab_teachers_index[lab][j]][day_store[k]][2*(slot_store[k]+add_div)]=0;
+					teachers[lab_teachers_index[lab][j]][day_store[k]][(2*(slot_store[k]+add_div))+1]=0;
 					continue;
 				}
 			}
 		}
 	}
-	for(int j=0;j<teachers_count[lab].size();j++) {
-		if(teachers_count[lab][j]!=0) return false;
+	for(int j=0;j<lab_teachers_count[lab].size();j++) {
+		if(lab_teachers_count[lab][j]!=0) return false;
 	}
 	return true;
 }
@@ -810,20 +809,23 @@ int timetable::set_teachers_data(int lab_number, vector<int> teachers_count_list
 	if( lab_number<1 || lab_number>5 ) {
 		return 0;
 	}
-	teachers_count[lab_number] = teachers_count_list;
-	teachers_name[lab_number] = teachers_name_list;
+	lab_teachers_count[lab_number] = teachers_count_list;
+	for(int i=0;i<teachers_name_list.size();i++) {
+		teachers_name[total_teachers] = teachers_name_list[i];
+		lab_teachers_index[lab_number].push_back(total_teachers);
+		total_teachers += 1;
+	}
 	return 1;
 }
 
 string timetable::get_teacher_batch(int lab_number, int teacher_number, int day, int slot) {
 	/* returns the name of the batch assigned to the teacher teacher_number of lab lab_number */
-	return batch_no_to_str(teachers[lab_number][teacher_number][day][slot]);
+	return batch_no_to_str(teachers[lab_teachers_index[lab_number][teacher_number]][day][slot]);
 }
 /* end of interface functions */
 
 void timetable::execute() {
 	/* Generates the timetable,	should be called after the input is specified */
-	init();
 	find_c1(0,0);
 	while(!check_filled())
 		randomise();

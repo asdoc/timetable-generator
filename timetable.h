@@ -12,12 +12,12 @@ class timetable {
 	int labs_class_count[4]; /* stores the number of labs covered for each class [class] */
 	int labs_occupied[6][5][4]; /* stores the count of the labs occupied per lab subject [labs][day][session]*/
 	int labs_maxlimit[6];		/* maximum count of labs available at a time [labs] */
-	vector <int> teachers_count[6];	/* stores the teachers load for respective labs [no][labs] */
-	vector <string> teachers_name[6]; /* stores the teachers names for respective labs [no][labs] */
-	int teachers[6][10][5][8]; /* stores time table for teachers as [lab][teacher_number][day][session] */
+	vector <int> lab_teachers_count[6];	/* stores the teachers load for respective labs [no][labs] */
+	vector <int> lab_teachers_index[6]; /* stores the index of the lab teacher in teachers[][][] */
+	string teachers_name[60]; /* stores the teachers names [teacher_number] */
+	int teachers[60][5][8]; /* stores time table for teachers as [teacher_number][day][session] */
+	int total_teachers;		/* total number of teacher */
 
-	/* initialises variables */
-	void init();
 	string batch_no_to_str(int batch_number);
 	string get_lab_name(int lab_number);
 	
@@ -39,6 +39,9 @@ class timetable {
 	bool find_c1(int day, int session);
 
 public:
+	/* initialises variables */
+	timetable();
+
 	/*
 		Interface functions start from here
 		Call these functions as preferably in the order of declaration

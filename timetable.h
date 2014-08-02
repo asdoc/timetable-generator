@@ -7,16 +7,14 @@
 using namespace std;
 
 class timetable {
-	int batch[16][5][3]; /* stores the time table for labs */
-	bool lab_status[4][5][3]; /* Stores the lab status (if there is a lab or no) for each of the 4 classes */
-	int labs_remaining[16][6]; /* stores the list of labs remaining per batch */
-	int labs_class_count[4]; /* stores the number of labs covered for each class */
-	int labs_occupied[6][5][4]; /* stores the count of the labs occupied per lab subject */
-	int labs_maxlimit[6];		/* maximum count of labs available at a time */
-	vector <int> teachers_count[6];	/* stores the teachers load for respective labs */
-	vector <string> teachers_name[6]; /* stores the teachers names for respective labs */
-	bool teacher_assigned_to_batch[16][5][3]; /* true if a teacher is assigned to the batch */
-	int teachers[6][10][5][4]; /* stores time table for teachers as [lab][teacher_number][day][slot] */
+	int batch[16][5][6]; /* stores the time table for labs [batch][day][session]*/
+	int labs_remaining[16][6]; /* stores the list of labs remaining per batch [batch][lab]*/
+	int labs_class_count[4]; /* stores the number of labs covered for each class [class] */
+	int labs_occupied[6][5][4]; /* stores the count of the labs occupied per lab subject [labs][day][session]*/
+	int labs_maxlimit[6];		/* maximum count of labs available at a time [labs] */
+	vector <int> teachers_count[6];	/* stores the teachers load for respective labs [no][labs] */
+	vector <string> teachers_name[6]; /* stores the teachers names for respective labs [no][labs] */
+	int teachers[6][10][5][8]; /* stores time table for teachers as [lab][teacher_number][day][session] */
 
 	/* initialises variables */
 	void init();

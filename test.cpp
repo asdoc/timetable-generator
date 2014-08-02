@@ -78,9 +78,19 @@ int main() {
 	
 	for(int i=0;i<16;i++) {
 		cout<<"Class "<<1+(i/4)<<" Batch "<<1+(i%4)<<"\n\n";
-		for(int j=0;j<3;j++) {
+		for(int j=0;j<6;j++) {
 			for(int k=0;k<5;k++) {
 				cout<<se.get_batch_lab(i,k,j)<<" ";
+			}
+			cout<<"\n";
+		}
+		cout<<"\n";
+	}
+	
+	for(int i=0;i<7;i++) {
+		for(int j=0;j<8;j++) {
+			for(int k=0;k<5;k++) {
+				cout<<se.get_teacher_batch(1,i,k,j)<<" ";
 			}
 			cout<<"\n";
 		}

@@ -84,6 +84,12 @@ string timetable::get_lab_name(int lab_number) {
 	return "";
 }
 
+bool assign_lecs(int lec_number, int teacher_index, int class_no, int day, int slot){
+	int add_div=1;
+	if(class_no<3) add_div=0;
+}
+
+
 bool timetable::assign_lab_teachers(int batch_number,int lab) {
 	int add_div=1;
 	if(batch_number<12) add_div=0;
@@ -816,6 +822,25 @@ int timetable::set_teachers_data(int lab_number, vector<int> teachers_count_list
 		total_teachers += 1;
 	}
 	return 1;
+}
+
+int timetable::set_teachers_lecs(int lec_number, vector <int> teachers_count_list, vector<string> teachers_name_list) {
+	/* sets the teachers name and load for lecture lec_number */
+	lec_teachers_count[lec_number]=teachers_count_list;
+	for(int i=0;i<teachers_name_list.size();i++) {
+		int j;
+		string tmp_name = teachers_name_list[i];
+		for(j=0;j<total_teachers;j++) {
+			if(teachers_name[j]==tmp_name) break;
+		}
+		if(j<total_teachers){
+			lec_teachers_index[lec_number].push_back(j);
+		}else{
+			lec_teachers_index[lec_number].push_back(j);
+			teachers_name[total_teachers]=tmp_name;
+			total_teachers += 1;
+		}
+	}
 }
 
 string timetable::get_teacher_batch(int lab_number, int teacher_number, int day, int slot) {

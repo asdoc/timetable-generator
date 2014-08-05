@@ -14,6 +14,8 @@ class timetable {
 	int labs_maxlimit[6];		/* maximum count of labs available at a time [labs] */
 	vector <int> lab_teachers_count[6];	/* stores the teachers load for respective labs [no][labs] */
 	vector <int> lab_teachers_index[6]; /* stores the index of the lab teacher in teachers[][][] */
+	vector <int> lec_teachers_count[12]; /* stores the teachers load for lectures */
+	vector <int> lec_teachers_index[12]; /* stores the index of the lecture teacher in teachers[][][] */
 	string teachers_name[60]; /* stores the teachers names [teacher_number] */
 	int teachers[60][5][8]; /* stores time table for teachers as [teacher_number][day][session] */
 	int total_teachers;		/* total number of teacher */
@@ -29,7 +31,7 @@ class timetable {
 		Complexity can be reduced heavily by doing the same  */
 	void randomise();
 	
-	/* checks if the batche's labs are properly arranged within various constraints */
+	/* checks if the batch's labs are properly arranged within various constraints */
 	bool check_filled();
 	
 	/* functions for arranging the labs for class SE4 - SE1 */
@@ -50,6 +52,7 @@ public:
 	/*	I/O interface functions */
 	string get_batch_lab(int batch_number, int day, int slot);
 	int set_teachers_data(int lab_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
+	int set_teachers_lecs(int lec_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
 	string get_teacher_batch(int lab_number, int teacher_number, int day, int slot);
 
 	/* Generates the timetable,	should be called after the input is specified */

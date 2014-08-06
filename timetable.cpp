@@ -38,11 +38,23 @@ timetable::timetable() {
 	labs_maxlimit[4]=2;
 	labs_maxlimit[5]=2;
 	
+	lecs_maxlimit[6]=4;
+	lecs_maxlimit[7]=4;
+	lecs_maxlimit[8]=3;
+	lecs_maxlimit[9]=3;
+	lecs_maxlimit[10]=3;
+	lecs_maxlimit[11]=1;
+
 	for(int i=0;i<60;i++) {
 		for(int j=0;j<5;j++) {
 			for(int k=0;k<8;k++) {
 				teachers[i][j][k]=0;
 			}
+		}
+	}
+	for(int i=0;i<4;i++) {
+		for(int j=0;j<12;j++) {
+			lec_class_count[i][j]=0;
 		}
 	}
 }
@@ -69,24 +81,72 @@ string timetable::batch_no_to_str(int batch_number) {
 string timetable::get_lab_name(int lab_number) {
 	switch(lab_number) {
 		case 0:
-			return ".... ";
+			return "..... ";
 		case 1:
-			return "DSPS ";
+			return "DSPSL ";
 		case 2:
-			return "DELD ";
+			return "DEL   ";
 		case 3:
-			return "OSA  ";
+			return "OSAL  ";
 		case 4:
-			return "SSL  ";
+			return "SSL   ";
 		case 5:
-			return "MPA  ";
+			return "MPAL  ";
+		case 6:
+			return "DS    ";
+		case 7:
+			return "DSPS  ";
+		case 8:
+			return "MPA   ";
+		case 9:
+			return "OSA   ";
+		case 10:
+			return "DELD  ";
+		case 11:
+			return "SSL   ";
 	}
 	return "";
 }
 
-bool assign_lecs(int lec_number, int teacher_index, int class_no, int day, int slot){
-	int add_div=1;
-	if(class_no<3) add_div=0;
+bool timetable::assign_lecs(int lec_number, int teacher_index, int class_no){
+	int add_div=0;
+	if(class_no==3) add_div=1;
+	/*
+		Conditions:
+		1. The teachers load may be filled
+	*/
+	if(lec_teachers_count[lec_number][teacher_index]==0) {
+		/* if teacher's lectures load is filled */
+		if(teacher_index==(lec_teachers_count[lec_number].size()-1)) {
+			if(class_no<4) {
+				/* no way to arrange all classes */
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			/* goto next teacher */
+			return assign_lecs(lec_number,teacher_index+1,class_no);
+		}
+	} else {
+		/* teacher can be arranged to class class_no */
+		vector <int> tmp_days;
+		vector <int> tmp_slots;
+		for(int i=0;i<5;i++) {
+			for(int j=0;j<3;j++) {
+				if(
+					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
+					(batch[4*class_no][i][j]==0)
+					){
+					tmp_days.push_back(i);
+					tmp_slots.push_back(j);
+				}
+			}
+		}
+		/*
+			iterate through all posible combinations in tmp_days and tmp_slots and arrange the next class for them
+		*/
+	}
 }
 
 

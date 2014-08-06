@@ -16,6 +16,8 @@ class timetable {
 	vector <int> lab_teachers_index[6]; /* stores the index of the lab teacher in teachers[][][] */
 	vector <int> lec_teachers_count[12]; /* stores the teachers load for lectures */
 	vector <int> lec_teachers_index[12]; /* stores the index of the lecture teacher in teachers[][][] */
+	int lec_class_count[4][12];
+	int lecs_maxlimit[12];
 	string teachers_name[60]; /* stores the teachers names [teacher_number] */
 	int teachers[60][5][8]; /* stores time table for teachers as [teacher_number][day][session] */
 	int total_teachers;		/* total number of teacher */
@@ -25,7 +27,8 @@ class timetable {
 	
 	/* function for the assignment of teachers to lab (assumes that labs have been arranged) */
 	bool assign_lab_teachers(int batch_number,int lab);
-	
+	bool assign_lecs(int lec_number, int teacher_index, int class_no);
+
 	/* randomly changes the position the labs */
 	/* TODO dependency on this function can be reduced by taking care of constraints in the find_c functions.
 		Complexity can be reduced heavily by doing the same  */

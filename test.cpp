@@ -67,12 +67,29 @@ int main() {
 	teachers_name[5].push_back("x");
 	
 	timetable se;
+	cout<<"Setting variables...\n";
+	
 	for(int i=1;i<6;i++) {
 		if(!se.set_teachers_data(i,teachers_count[i],teachers_name[i])) {
 			cout<<"Unknown error\n";
 			return 1;
 		}
 	}
+	
+	vector <int> t1;
+	t1.push_back(1);
+	t1.push_back(1);
+	t1.push_back(1);
+	t1.push_back(1);
+	
+	vector <string> t2;
+	t2.push_back("k");
+	t2.push_back("e");
+	t2.push_back("f");
+	t2.push_back("g");
+	
+	se.set_teachers_lecs(6,t1,t2);
+	
 	cout<<"Executing...\n";
 	se.execute();
 	

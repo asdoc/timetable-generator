@@ -130,21 +130,21 @@ int main() {
 	t1.clear();
 	t2.clear();
 	t1.push_back(4);
-	t2.push_back("pp");
+	t2.push_back("ppj");
 	se.set_teachers_lecs(11,t1,t2);
 
 	cout<<"Executing\n";
 	se.execute();
 	
 	for(int i=0;i<16;i++) {
-		cout<<"Class "<<1+(i/4)<<" Batch "<<1+(i%4)<<"\n\n";
+		cout<<"Class "<<1+(i/4)<<" Batch "<<1+(i%4)<<"\n";
 		for(int j=0;j<6;j++) {
 			for(int k=0;k<5;k++) {
 				cout<<se.get_batch_lab(i,k,j)<<" ";
 			}
 			cout<<"\n";
 		}
-		cout<<"\n";
+		cout<<"--------------------------------------------\n";
 	}
 	
 	for(int i=0;i<se.get_total_teachers();i++) {

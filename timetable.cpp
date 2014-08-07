@@ -86,29 +86,29 @@ string timetable::batch_no_to_str(int batch_number) {
 string timetable::get_lab_name(int lab_number) {
 	switch(lab_number) {
 		case 0:
-			return "..... ";
+			return "...... ";
 		case 1:
-			return "DSPSL ";
+			return "+DSPSL ";
 		case 2:
-			return "DEL   ";
+			return "+DEL   ";
 		case 3:
-			return "OSAL  ";
+			return "+OSAL  ";
 		case 4:
-			return "SSL   ";
+			return "+SSL   ";
 		case 5:
-			return "MPAL  ";
+			return "+MPAL  ";
 		case 6:
-			return "DS    ";
+			return "-DS    ";
 		case 7:
-			return "DSPS  ";
+			return "-DSPS  ";
 		case 8:
-			return "MPA   ";
+			return "-MPA   ";
 		case 9:
-			return "OSA   ";
+			return "-OSA   ";
 		case 10:
-			return "DELD  ";
+			return "-DELD  ";
 		case 11:
-			return "SSL   ";
+			return "-SS    ";
 	}
 	return "";
 }
@@ -229,13 +229,12 @@ bool timetable::assign_lecs3(int lec_number, int class_no){
 						][tmp_days[k]][tmp_slots[k]+add_div] = (class_no+17);
 					/* end of updation of variables */
 					
-					
 					/* check for the next class */
 					if(class_no==3) {
 						return true;
-						if(lec_number==10) return assign_lecs1(11,0,0);
+						/*if(lec_number==10) return assign_lecs1(11,0,0);
 						else if(lec_number==9 || lec_number==8) return assign_lecs3(class_no+1,0);
-						else cout<<"3This should not have happened\n";
+						else cout<<"3This should not have happened\n";*/
 					}
 					if( assign_lecs3(lec_number, class_no+1) ) return true;
 					else {
@@ -323,9 +322,9 @@ bool timetable::assign_lecs4(int lec_number, int class_no){
 						/* check for the next class */
 						if(class_no==3) {
 							return true;
-							if(lec_number==6) return assign_lecs4(7,0);
+							/*if(lec_number==6) return assign_lecs4(7,0);
 							else if(lec_number==7) return assign_lecs3(8,0);
-							else cout<<"4This should not have happened\n";
+							else cout<<"4This should not have happened\n";*/
 						}
 						if( assign_lecs4(lec_number, class_no+1) ) return true;
 						else {
@@ -1130,7 +1129,7 @@ void timetable::execute() {
 	cout<<"Arranging teachers to labs\n";
 	for(int i=1;i<6;i++) assign_lab_teachers(0,i);
 	cout<<"Arranging lectures\n";
-	if(!assign_lecs4(6,0)) cout<<"Could not arrange lecs\n";
+	if(!assign_lecs4(6,0)) cout<<"Could not arrange lec 6\n";
 	if(!assign_lecs4(7,0)) cout<<"Could not arrange lec 7\n";
 	if(!assign_lecs3(8,0)) cout<<"Could not arrange lec 8\n";
 	if(!assign_lecs3(9,0)) cout<<"Could not arrange lec 9\n";

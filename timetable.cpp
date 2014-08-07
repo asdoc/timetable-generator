@@ -113,7 +113,7 @@ string timetable::get_lab_name(int lab_number) {
 	return "";
 }
 
-bool timetable::assign_lecs(int lec_number, int teacher_index, int class_no){
+bool timetable::assign_lecs1(int lec_number, int teacher_index, int class_no){
 	int add_div=0;
 	if(class_no==3) add_div=1;
 	/*
@@ -131,7 +131,168 @@ bool timetable::assign_lecs(int lec_number, int teacher_index, int class_no){
 			}
 		} else {
 			/* goto next teacher */
-			return assign_lecs(lec_number,teacher_index+1,class_no);
+			return assign_lecs1(lec_number,teacher_index+1,class_no);
+		}
+	} else {
+		/* teacher can be arranged to class class_no */
+		vector <int> tmp_days;
+		vector <int> tmp_slots;
+		for(int i=0;i<5;i++) {
+			for(int j=0;j<3;j++) {
+				if(
+					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
+					(batch[4*class_no][i][j]==0)
+					){
+					tmp_days.push_back(i);
+					tmp_slots.push_back(j);
+				}
+			}
+		}
+		/*
+			iterate through all posible combinations in tmp_days and tmp_slots and arrange the next class for them
+		*/
+		for(int i=0;i<tmp_days.size();i++) {
+			lec_teachers_count[lec_number][teacher_index]-=1;
+			lec_class_count[class_no][lec_number]+=1;
+		
+			batch[4*class_no][tmp_days[i]][tmp_slots[i]]=lec_number;
+
+			teachers[
+					lec_teachers_index[lec_number][teacher_index]
+				][tmp_days[i]][tmp_slots[i]+add_div] = (class_no+17);
+			/* end of updation of variables */
+		
+		
+			/* check for the next class */
+			if( assign_lecs1(lec_number,teacher_index, class_no+1) ) return true;
+			else {
+				/* rollback variables */
+
+				lec_teachers_count[lec_number][teacher_index]+=1;
+				lec_class_count[class_no][lec_number]-=1;
+
+				batch[4*class_no][tmp_days[i]][tmp_slots[i]]=0;
+
+				teachers[
+						lec_teachers_index[lec_number][teacher_index]
+					][tmp_days[i]][tmp_slots[i]+add_div] = 0;
+			}
+		}
+	}
+	return false;
+}
+
+bool timetable::assign_lecs3(int lec_number, int teacher_index, int class_no){
+	int add_div=0;
+	if(class_no==3) add_div=1;
+	/*
+		Conditions:
+		1. The teachers load may be filled
+	*/
+	if(lec_teachers_count[lec_number][teacher_index]==0) {
+		/* if teacher's lectures load is filled */
+		if(teacher_index==(lec_teachers_count[lec_number].size()-1)) {
+			if(class_no<4) {
+				/* no way to arrange all classes */
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			/* goto next teacher */
+			return assign_lecs3(lec_number,teacher_index+1,class_no);
+		}
+	} else {
+		/* teacher can be arranged to class class_no */
+		vector <int> tmp_days;
+		vector <int> tmp_slots;
+		for(int i=0;i<5;i++) {
+			for(int j=0;j<3;j++) {
+				if(
+					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
+					(batch[4*class_no][i][j]==0)
+					){
+					tmp_days.push_back(i);
+					tmp_slots.push_back(j);
+				}
+			}
+		}
+		/*
+			iterate through all posible combinations in tmp_days and tmp_slots and arrange the next class for them
+		*/
+		for(int i=0;i<tmp_days.size();i++) {
+			for(int j=i+1;j<tmp_days.size();j++) {
+				if(tmp_days[i]==tmp_days[j]) continue;
+				for(int k=j+1;k<tmp_days.size();k++) {
+					if(tmp_days[j]==tmp_days[k]) continue;
+					/* start of updation of all variables */
+					lec_teachers_count[lec_number][teacher_index]-=1;
+					lec_class_count[class_no][lec_number]+=1;
+					
+					batch[4*class_no][tmp_days[i]][tmp_slots[i]]=lec_number;
+					batch[4*class_no][tmp_days[j]][tmp_slots[j]]=lec_number;
+					batch[4*class_no][tmp_days[k]][tmp_slots[k]]=lec_number;
+
+					teachers[
+							lec_teachers_index[lec_number][teacher_index]
+						][tmp_days[i]][tmp_slots[i]+add_div] = (class_no+17);
+					teachers[
+							lec_teachers_index[lec_number][teacher_index]
+						][tmp_days[j]][tmp_slots[j]+add_div] = (class_no+17);
+					teachers[
+							lec_teachers_index[lec_number][teacher_index]
+						][tmp_days[k]][tmp_slots[k]+add_div] = (class_no+17);
+					/* end of updation of variables */
+					
+					
+					/* check for the next class */
+					if( assign_lecs3(lec_number,teacher_index, class_no+1) ) return true;
+					else {
+						/* rollback variables */
+
+						lec_teachers_count[lec_number][teacher_index]+=1;
+						lec_class_count[class_no][lec_number]-=1;
+
+						batch[4*class_no][tmp_days[i]][tmp_slots[i]]=0;
+						batch[4*class_no][tmp_days[j]][tmp_slots[j]]=0;
+						batch[4*class_no][tmp_days[k]][tmp_slots[k]]=0;
+
+						teachers[
+								lec_teachers_index[lec_number][teacher_index]
+							][tmp_days[i]][tmp_slots[i]+add_div] = 0;
+						teachers[
+								lec_teachers_index[lec_number][teacher_index]
+							][tmp_days[j]][tmp_slots[j]+add_div] = 0;
+						teachers[
+								lec_teachers_index[lec_number][teacher_index]
+							][tmp_days[k]][tmp_slots[k]+add_div] = 0;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+bool timetable::assign_lecs4(int lec_number, int teacher_index, int class_no){
+	int add_div=0;
+	if(class_no==3) add_div=1;
+	/*
+		Conditions:
+		1. The teachers load may be filled
+	*/
+	if(lec_teachers_count[lec_number][teacher_index]==0) {
+		/* if teacher's lectures load is filled */
+		if(teacher_index==(lec_teachers_count[lec_number].size()-1)) {
+			if(class_no<4) {
+				/* no way to arrange all classes */
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			/* goto next teacher */
+			return assign_lecs4(lec_number,teacher_index+1,class_no);
 		}
 	} else {
 		/* teacher can be arranged to class class_no */
@@ -183,7 +344,7 @@ bool timetable::assign_lecs(int lec_number, int teacher_index, int class_no){
 						
 						
 						/* check for the next class */
-						if( assign_lecs(lec_number,teacher_index, class_no+1) ) return true;
+						if( assign_lecs4(lec_number,teacher_index, class_no+1) ) return true;
 						else {
 							/* rollback variables */
 
@@ -983,5 +1144,10 @@ void timetable::execute() {
 	while(!check_filled())
 		randomise();
 	for(int i=1;i<6;i++) assign_lab_teachers(0,i);
-	if(!assign_lecs(6,0,0)) cout<<"Could not arrange lecs\n";
+	if(!assign_lecs4(6,0,0)) cout<<"Could not arrange lec 6\n";
+	if(!assign_lecs4(7,0,0)) cout<<"Could not arrange lec 7\n";
+	if(!assign_lecs3(8,0,0)) cout<<"Could not arrange lec 8\n";
+	if(!assign_lecs3(9,0,0)) cout<<"Could not arrange lec 9\n";
+	if(!assign_lecs3(10,0,0)) cout<<"Could not arrange lec 10\n";
+	if(!assign_lecs1(11,0,0)) cout<<"Could not arrange lec 11\n";
 }

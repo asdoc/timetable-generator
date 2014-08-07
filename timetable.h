@@ -27,7 +27,9 @@ class timetable {
 	
 	/* function for the assignment of teachers to lab (assumes that labs have been arranged) */
 	bool assign_lab_teachers(int batch_number,int lab);
-	bool assign_lecs(int lec_number, int teacher_index, int class_no);
+	bool assign_lecs4(int lec_number, int teacher_index, int class_no);
+	bool assign_lecs3(int lec_number, int teacher_index, int class_no);
+	bool assign_lecs1(int lec_number, int teacher_index, int class_no);
 
 	/* randomly changes the position the labs */
 	/* TODO dependency on this function can be reduced by taking care of constraints in the find_c functions.

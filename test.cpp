@@ -37,34 +37,34 @@ int main() {
 	teachers_count[5].push_back(4);
 	teachers_count[5].push_back(2);
 	
-	teachers_name[1].push_back("a");
-	teachers_name[1].push_back("b");
-	teachers_name[1].push_back("c");
-	teachers_name[1].push_back("d");
-	teachers_name[1].push_back("e");
-	teachers_name[1].push_back("f");
-	teachers_name[1].push_back("g");
+	teachers_name[1].push_back("pvh");
+	teachers_name[1].push_back("ajj");
+	teachers_name[1].push_back("n2");
+	teachers_name[1].push_back("bdz");
+	teachers_name[1].push_back("gvk");
+	teachers_name[1].push_back("ard");
+	teachers_name[1].push_back("kcw");
 	
-	teachers_name[2].push_back("h");
-	teachers_name[2].push_back("i");
-	teachers_name[2].push_back("j");
-	teachers_name[2].push_back("k");
+	teachers_name[2].push_back("pp");
+	teachers_name[2].push_back("dms");
+	teachers_name[2].push_back("ad");
+	teachers_name[2].push_back("new");
 	
-	teachers_name[3].push_back("l");
-	teachers_name[3].push_back("m");
-	teachers_name[3].push_back("n");
-	teachers_name[3].push_back("o");
+	teachers_name[3].push_back("pvj");
+	teachers_name[3].push_back("vvb");
+	teachers_name[3].push_back("rak");
+	teachers_name[3].push_back("ars");
 	
-	teachers_name[4].push_back("p");
-	teachers_name[4].push_back("q");
-	teachers_name[4].push_back("r");
-	teachers_name[4].push_back("s");
-	teachers_name[4].push_back("t");
+	teachers_name[4].push_back("pht");
+	teachers_name[4].push_back("pc");
+	teachers_name[4].push_back("new3");
+	teachers_name[4].push_back("ppj");
+	teachers_name[4].push_back("ps");
 	
-	teachers_name[5].push_back("u");
-	teachers_name[5].push_back("v");
-	teachers_name[5].push_back("w");
-	teachers_name[5].push_back("x");
+	teachers_name[5].push_back("ddk");
+	teachers_name[5].push_back("rvb");
+	teachers_name[5].push_back("sng");
+	teachers_name[5].push_back("ssh");
 	
 	timetable se;
 	cout<<"Setting variables...\n";
@@ -77,19 +77,62 @@ int main() {
 	}
 	
 	vector <int> t1;
-	t1.push_back(1);
-	t1.push_back(1);
-	t1.push_back(1);
-	t1.push_back(1);
-	
 	vector <string> t2;
-	t2.push_back("k");
-	t2.push_back("e");
-	t2.push_back("f");
-	t2.push_back("g");
-	
+
+	t1.push_back(1);
+	t1.push_back(1);
+	t1.push_back(1);
+	t1.push_back(1);
+	t2.push_back("sss");
+	t2.push_back("smg");
+	t2.push_back("gvk");
+	t2.push_back("bdz");
 	se.set_teachers_lecs(6,t1,t2);
 	
+	t1.clear();
+	t2.clear();
+	t1.push_back(2);
+	t1.push_back(1);
+	t1.push_back(1);
+	t2.push_back("ard");
+	t2.push_back("ajj");
+	t2.push_back("kcw");
+	se.set_teachers_lecs(7,t1,t2);
+	
+	t1.clear();
+	t2.clear();
+	t1.push_back(2);
+	t1.push_back(1);
+	t1.push_back(1);
+	t2.push_back("sng");
+	t2.push_back("ddk");
+	t2.push_back("ssh");
+	se.set_teachers_lecs(8,t1,t2);
+
+	t1.clear();
+	t2.clear();
+	t1.push_back(2);
+	t1.push_back(1);
+	t1.push_back(1);
+	t2.push_back("rak");
+	t2.push_back("ars");
+	t2.push_back("vvb");
+	se.set_teachers_lecs(9,t1,t2);
+
+	t1.clear();
+	t2.clear();
+	t1.push_back(2);
+	t1.push_back(2);
+	t2.push_back("dms");
+	t2.push_back("pp");
+	se.set_teachers_lecs(10,t1,t2);
+
+	t1.clear();
+	t2.clear();
+	t1.push_back(4);
+	t2.push_back("pp");
+	se.set_teachers_lecs(11,t1,t2);
+
 	cout<<"Executing...\n";
 	se.execute();
 	

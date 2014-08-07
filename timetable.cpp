@@ -138,7 +138,7 @@ bool timetable::assign_lecs1(int lec_number, int teacher_index, int class_no){
 		vector <int> tmp_days;
 		vector <int> tmp_slots;
 		for(int i=0;i<5;i++) {
-			for(int j=0;j<3;j++) {
+			for(int j=0;j<6;j++) {
 				if(
 					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
 					(batch[4*class_no][i][j]==0)
@@ -182,32 +182,17 @@ bool timetable::assign_lecs1(int lec_number, int teacher_index, int class_no){
 	return false;
 }
 
-bool timetable::assign_lecs3(int lec_number, int teacher_index, int class_no){
+bool timetable::assign_lecs3(int lec_number, int class_no){
 	int add_div=0;
 	if(class_no==3) add_div=1;
-	/*
-		Conditions:
-		1. The teachers load may be filled
-	*/
-	if(lec_teachers_count[lec_number][teacher_index]==0) {
-		/* if teacher's lectures load is filled */
-		if(teacher_index==(lec_teachers_count[lec_number].size()-1)) {
-			if(class_no<4) {
-				/* no way to arrange all classes */
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			/* goto next teacher */
-			return assign_lecs3(lec_number,teacher_index+1,class_no);
-		}
-	} else {
-		/* teacher can be arranged to class class_no */
-		vector <int> tmp_days;
-		vector <int> tmp_slots;
+	vector <int> tmp_days;
+	vector <int> tmp_slots;	
+	for(int teacher_index=0;teacher_index<lec_teachers_count[lec_number].size();teacher_index++) {
+		if(lec_teachers_count[lec_number][teacher_index]==0) continue;
+		tmp_days.clear();
+		tmp_slots.clear();
 		for(int i=0;i<5;i++) {
-			for(int j=0;j<3;j++) {
+			for(int j=0;j<6;j++) {
 				if(
 					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
 					(batch[4*class_no][i][j]==0)
@@ -246,7 +231,13 @@ bool timetable::assign_lecs3(int lec_number, int teacher_index, int class_no){
 					
 					
 					/* check for the next class */
-					if( assign_lecs3(lec_number,teacher_index, class_no+1) ) return true;
+					if(class_no==3) {
+						return true;
+						if(lec_number==10) return assign_lecs1(11,0,0);
+						else if(lec_number==9 || lec_number==8) return assign_lecs3(class_no+1,0);
+						else cout<<"3This should not have happened\n";
+					}
+					if( assign_lecs3(lec_number, class_no+1) ) return true;
 					else {
 						/* rollback variables */
 
@@ -274,32 +265,18 @@ bool timetable::assign_lecs3(int lec_number, int teacher_index, int class_no){
 	return false;
 }
 
-bool timetable::assign_lecs4(int lec_number, int teacher_index, int class_no){
+
+bool timetable::assign_lecs4(int lec_number, int class_no){
 	int add_div=0;
 	if(class_no==3) add_div=1;
-	/*
-		Conditions:
-		1. The teachers load may be filled
-	*/
-	if(lec_teachers_count[lec_number][teacher_index]==0) {
-		/* if teacher's lectures load is filled */
-		if(teacher_index==(lec_teachers_count[lec_number].size()-1)) {
-			if(class_no<4) {
-				/* no way to arrange all classes */
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			/* goto next teacher */
-			return assign_lecs4(lec_number,teacher_index+1,class_no);
-		}
-	} else {
-		/* teacher can be arranged to class class_no */
-		vector <int> tmp_days;
-		vector <int> tmp_slots;
+	vector <int> tmp_days;
+	vector <int> tmp_slots;	
+	for(int teacher_index=0;teacher_index<lec_teachers_count[lec_number].size();teacher_index++) {
+		if(lec_teachers_count[lec_number][teacher_index]==0) continue;
+		tmp_days.clear();
+		tmp_slots.clear();
 		for(int i=0;i<5;i++) {
-			for(int j=0;j<3;j++) {
+			for(int j=0;j<6;j++) {
 				if(
 					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
 					(batch[4*class_no][i][j]==0)
@@ -344,7 +321,13 @@ bool timetable::assign_lecs4(int lec_number, int teacher_index, int class_no){
 						
 						
 						/* check for the next class */
-						if( assign_lecs4(lec_number,teacher_index, class_no+1) ) return true;
+						if(class_no==3) {
+							return true;
+							if(lec_number==6) return assign_lecs4(7,0);
+							else if(lec_number==7) return assign_lecs3(8,0);
+							else cout<<"4This should not have happened\n";
+						}
+						if( assign_lecs4(lec_number, class_no+1) ) return true;
 						else {
 							/* rollback variables */
 
@@ -1132,22 +1115,33 @@ int timetable::set_teachers_lecs(int lec_number, vector <int> teachers_count_lis
 	}
 }
 
-string timetable::get_teacher_batch(int lab_number, int teacher_number, int day, int slot) {
+string timetable::get_teacher_batch(int teacher_number, int day, int slot) {
 	/* returns the name of the batch assigned to the teacher teacher_number of lab lab_number */
-	return batch_no_to_str(teachers[lab_teachers_index[lab_number][teacher_number]][day][slot]);
+	return batch_no_to_str(teachers[teacher_number][day][slot]);
 }
 /* end of interface functions */
 
 void timetable::execute() {
 	/* Generates the timetable,	should be called after the input is specified */
 	find_c1(0,0);
+	cout<<"Randomising\n";
 	while(!check_filled())
 		randomise();
+	cout<<"Arranging teachers to labs\n";
 	for(int i=1;i<6;i++) assign_lab_teachers(0,i);
-	if(!assign_lecs4(6,0,0)) cout<<"Could not arrange lec 6\n";
-	if(!assign_lecs4(7,0,0)) cout<<"Could not arrange lec 7\n";
-	if(!assign_lecs3(8,0,0)) cout<<"Could not arrange lec 8\n";
-	if(!assign_lecs3(9,0,0)) cout<<"Could not arrange lec 9\n";
-	if(!assign_lecs3(10,0,0)) cout<<"Could not arrange lec 10\n";
+	cout<<"Arranging lectures\n";
+	if(!assign_lecs4(6,0)) cout<<"Could not arrange lecs\n";
+	if(!assign_lecs4(7,0)) cout<<"Could not arrange lec 7\n";
+	if(!assign_lecs3(8,0)) cout<<"Could not arrange lec 8\n";
+	if(!assign_lecs3(9,0)) cout<<"Could not arrange lec 9\n";
+	if(!assign_lecs3(10,0)) cout<<"Could not arrange lec 10\n";
 	if(!assign_lecs1(11,0,0)) cout<<"Could not arrange lec 11\n";
+}
+
+int timetable::get_total_teachers() {
+	return total_teachers;
+}
+
+string timetable::get_teacher_name(int teacher_number) {
+	return teachers_name[teacher_number];
 }

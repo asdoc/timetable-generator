@@ -27,8 +27,8 @@ class timetable {
 	
 	/* function for the assignment of teachers to lab (assumes that labs have been arranged) */
 	bool assign_lab_teachers(int batch_number,int lab);
-	bool assign_lecs4(int lec_number, int teacher_index, int class_no);
-	bool assign_lecs3(int lec_number, int teacher_index, int class_no);
+	bool assign_lecs4(int lec_number, int class_no);
+	bool assign_lecs3(int lec_number, int class_no);
 	bool assign_lecs1(int lec_number, int teacher_index, int class_no);
 
 	/* randomly changes the position the labs */
@@ -58,7 +58,9 @@ public:
 	string get_batch_lab(int batch_number, int day, int slot);
 	int set_teachers_data(int lab_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
 	int set_teachers_lecs(int lec_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
-	string get_teacher_batch(int lab_number, int teacher_number, int day, int slot);
+	string get_teacher_batch(int teacher_number, int day, int slot);
+	string get_teacher_name(int teacher_number);
+	int get_total_teachers();
 
 	/* Generates the timetable,	should be called after the input is specified */
 	void execute();

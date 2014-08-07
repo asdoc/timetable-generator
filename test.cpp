@@ -67,7 +67,7 @@ int main() {
 	teachers_name[5].push_back("ssh");
 	
 	timetable se;
-	cout<<"Setting variables...\n";
+	cout<<"Setting variables\n";
 	
 	for(int i=1;i<6;i++) {
 		if(!se.set_teachers_data(i,teachers_count[i],teachers_name[i])) {
@@ -133,7 +133,7 @@ int main() {
 	t2.push_back("pp");
 	se.set_teachers_lecs(11,t1,t2);
 
-	cout<<"Executing...\n";
+	cout<<"Executing\n";
 	se.execute();
 	
 	for(int i=0;i<16;i++) {
@@ -147,13 +147,14 @@ int main() {
 		cout<<"\n";
 	}
 	
-	for(int i=0;i<7;i++) {
+	for(int i=0;i<se.get_total_teachers();i++) {
+		cout<<se.get_teacher_name(i)<<": \n";
 		for(int j=0;j<8;j++) {
 			for(int k=0;k<5;k++) {
-				cout<<se.get_teacher_batch(1,i,k,j)<<" ";
+				cout<<se.get_teacher_batch(i,k,j)<<" ";
 			}
 			cout<<"\n";
 		}
-		cout<<"\n";
+		cout<<"----------------------------------------------\n";
 	}
 }

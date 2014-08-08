@@ -70,7 +70,7 @@ int main() {
 	cout<<"Setting variables\n";
 	
 	for(int i=1;i<6;i++) {
-		if(!se.set_teachers_data(i,teachers_count[i],teachers_name[i])) {
+		if(!se.set_teachers_lab(i,teachers_count[i],teachers_name[i])) {
 			cout<<"Unknown error\n";
 			return 1;
 		}
@@ -87,7 +87,7 @@ int main() {
 	t2.push_back("smg");
 	t2.push_back("gvk");
 	t2.push_back("bdz");
-	se.set_teachers_lecs(6,t1,t2);
+	se.set_teachers_lec(6,t1,t2);
 	
 	t1.clear();
 	t2.clear();
@@ -97,7 +97,7 @@ int main() {
 	t2.push_back("ard");
 	t2.push_back("ajj");
 	t2.push_back("kcw");
-	se.set_teachers_lecs(7,t1,t2);
+	se.set_teachers_lec(7,t1,t2);
 	
 	t1.clear();
 	t2.clear();
@@ -107,7 +107,7 @@ int main() {
 	t2.push_back("sng");
 	t2.push_back("ddk");
 	t2.push_back("ssh");
-	se.set_teachers_lecs(8,t1,t2);
+	se.set_teachers_lec(8,t1,t2);
 
 	t1.clear();
 	t2.clear();
@@ -117,7 +117,7 @@ int main() {
 	t2.push_back("rak");
 	t2.push_back("ars");
 	t2.push_back("vvb");
-	se.set_teachers_lecs(9,t1,t2);
+	se.set_teachers_lec(9,t1,t2);
 
 	t1.clear();
 	t2.clear();
@@ -125,13 +125,13 @@ int main() {
 	t1.push_back(2);
 	t2.push_back("dms");
 	t2.push_back("pp");
-	se.set_teachers_lecs(10,t1,t2);
+	se.set_teachers_lec(10,t1,t2);
 
 	t1.clear();
 	t2.clear();
 	t1.push_back(4);
 	t2.push_back("ppj");
-	se.set_teachers_lecs(11,t1,t2);
+	se.set_teachers_lec(11,t1,t2);
 
 	cout<<"Executing\n";
 	se.execute();
@@ -140,7 +140,7 @@ int main() {
 		cout<<"Class "<<1+(i/4)<<" Batch "<<1+(i%4)<<"\n";
 		for(int j=0;j<6;j++) {
 			for(int k=0;k<5;k++) {
-				cout<<se.get_batch_lab(i,k,j)<<" ";
+				cout<<se.get_batch_timetable(i,k,j)<<" ";
 			}
 			cout<<"\n";
 		}
@@ -151,7 +151,7 @@ int main() {
 		cout<<se.get_teacher_name(i)<<": \n";
 		for(int j=0;j<8;j++) {
 			for(int k=0;k<5;k++) {
-				cout<<se.get_teacher_batch(i,k,j)<<" ";
+				cout<<se.get_teacher_timetable(i,k,j)<<" ";
 			}
 			cout<<"\n";
 		}

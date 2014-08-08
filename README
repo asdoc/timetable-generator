@@ -1,6 +1,0 @@
-To run the main timetable generator over standard input and output: 
-Compile: g++ timetable_raw.cpp < t_data.txt -o generate 
-Run: ./generate 
-To test the main timetable generator library : 
-Compile: g++ test.cpp timetable.cpp -o generate 
-Run: ./generate 

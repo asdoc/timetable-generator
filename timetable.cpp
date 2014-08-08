@@ -1076,12 +1076,13 @@ bool timetable::find_c1(int day, int session) {
 }
 
 /* start of interface functions */
-string timetable::get_batch_lab(int batch_number, int day, int slot) {
+string timetable::get_batch_timetable(int batch_number, int day, int slot) {
 	/* returns the name of the lab for the batch at a give day and slot */
-	return get_lab_name(batch[batch_number][day][slot]);
+	if(!is_lab(batch_number, day, slot)) 	return get_lab_name(batch[(batch_number/4)*4][day][slot]);
+	else return get_lab_name(batch[batch_number][day][slot]);
 }
 
-int timetable::set_teachers_data(int lab_number, vector<int> teachers_count_list, vector<string> teachers_name_list) {
+int timetable::set_teachers_lab(int lab_number, vector<int> teachers_count_list, vector<string> teachers_name_list) {
 	/* sets the teachers name and load for lab lab_number */
 	if( lab_number<1 || lab_number>5 ) {
 		return 0;
@@ -1095,7 +1096,7 @@ int timetable::set_teachers_data(int lab_number, vector<int> teachers_count_list
 	return 1;
 }
 
-int timetable::set_teachers_lecs(int lec_number, vector <int> teachers_count_list, vector<string> teachers_name_list) {
+int timetable::set_teachers_lec(int lec_number, vector <int> teachers_count_list, vector<string> teachers_name_list) {
 	/* sets the teachers name and load for lecture lec_number */
 	lec_teachers_count[lec_number]=teachers_count_list;
 	for(int i=0;i<teachers_name_list.size();i++) {
@@ -1114,7 +1115,7 @@ int timetable::set_teachers_lecs(int lec_number, vector <int> teachers_count_lis
 	}
 }
 
-string timetable::get_teacher_batch(int teacher_number, int day, int slot) {
+string timetable::get_teacher_timetable(int teacher_number, int day, int slot) {
 	/* returns the name of the batch assigned to the teacher teacher_number of lab lab_number */
 	return batch_no_to_str(teachers[teacher_number][day][slot]);
 }
@@ -1143,4 +1144,9 @@ int timetable::get_total_teachers() {
 
 string timetable::get_teacher_name(int teacher_number) {
 	return teachers_name[teacher_number];
+}
+
+bool timetable::is_lab(int batch_number, int day, int slot) {
+	if(batch[batch_number][day][slot]>0 and batch[batch_number][day][slot]<6) return true;
+	else return false;
 }

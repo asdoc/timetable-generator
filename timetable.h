@@ -54,14 +54,19 @@ public:
 		Call these functions as preferably in the order of declaration
 	*/
 	
-	/*	I/O interface functions */
-	string get_batch_lab(int batch_number, int day, int slot);
-	int set_teachers_data(int lab_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
-	int set_teachers_lecs(int lec_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
-	string get_teacher_batch(int teacher_number, int day, int slot);
-	string get_teacher_name(int teacher_number);
-	int get_total_teachers();
-
-	/* Generates the timetable,	should be called after the input is specified */
+	/* input functions, must be called before executing the actual timetable */
+	int set_teachers_lab(int lab_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
+	int set_teachers_lec(int lec_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
+	
+	/* Generates the timetable,	must be called after the input is specified */
 	void execute();
+	
+	
+	/* output functions,  must be called after execute() is called */
+	string get_batch_timetable(int batch_number, int day, int slot);
+	string get_teacher_timetable(int teacher_number, int day, int slot);
+	string get_teacher_name(int teacher_number);
+	
+	bool is_lab(int batch_number, int day, int slot);
+	int get_total_teachers();
 };

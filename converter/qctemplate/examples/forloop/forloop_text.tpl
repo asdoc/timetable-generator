@@ -1,0 +1,3 @@
+{{TITLE}}
+{{#FORLOOP}}  * {{LOOP_MESSAGE}}
+{{/FORLOOP}}

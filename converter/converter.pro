@@ -23,9 +23,11 @@ linux-g++ {
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    ../timetable.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    ../timetable.h
 
 FORMS    += mainwindow.ui
 

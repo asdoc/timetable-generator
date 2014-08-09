@@ -6,6 +6,10 @@
 #include <QWebView>
 #include <QUrl>
 #include <QCTemplate.h>
+#include <vector>
+#include "../timetable.h"
+
+using namespace std;
 
 
 namespace Ui {
@@ -26,6 +30,7 @@ private:
     QCTemplate mTemplate;
 private slots:
     void convert();
+    void generate();
     void print();
 };
 

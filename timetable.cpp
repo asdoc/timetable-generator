@@ -11,7 +11,7 @@ timetable::timetable() {
 	total_teachers=0;
 	for(int i=0;i<16;i++) {
 		for(int j=0;j<5;j++) {
-			for(int k=0;k<6;k++) {
+			for(int k=0;k<7;k++) {
 				batch[i][j][k]=0;
 			}
 		}
@@ -138,7 +138,7 @@ bool timetable::assign_lecs1(int lec_number, int teacher_index, int class_no){
 		vector <int> tmp_days;
 		vector <int> tmp_slots;
 		for(int i=0;i<5;i++) {
-			for(int j=0;j<6;j++) {
+			for(int j=0;j<7;j++) {
 				if(
 					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
 					(batch[4*class_no][i][j]==0)
@@ -192,7 +192,7 @@ bool timetable::assign_lecs3(int lec_number, int class_no){
 		tmp_days.clear();
 		tmp_slots.clear();
 		for(int i=0;i<5;i++) {
-			for(int j=0;j<6;j++) {
+			for(int j=0;j<7;j++) {
 				if(
 					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
 					(batch[4*class_no][i][j]==0)
@@ -275,7 +275,7 @@ bool timetable::assign_lecs4(int lec_number, int class_no){
 		tmp_days.clear();
 		tmp_slots.clear();
 		for(int i=0;i<5;i++) {
-			for(int j=0;j<6;j++) {
+			for(int j=0;j<7;j++) {
 				if(
 					(teachers[lec_teachers_index[lec_number][teacher_index]][i][j+add_div]==0) &&
 					(batch[4*class_no][i][j]==0)
@@ -375,7 +375,7 @@ bool timetable::assign_lab_teachers(int batch_number,int lab) {
 	vector <int> slot_store;
 	for(int i=0;i<5;i++) {
 		for(int j=0;j<3;j++) {
-			if(batch[batch_number][i][2*j]==lab) {
+			if(batch[batch_number][i][2*j+add_div]==lab) {
 				day_store.push_back(i);
 				slot_store.push_back(j);
 			}
@@ -425,7 +425,6 @@ void timetable::randomise() {
 			batch[j][y2][x2*2]=temp;
 			batch[j][y1][x1*2+1]=batch[j][y2][x2*2+1];
 			batch[j][y2][x2*2+1]=temp;
-			
 		}
 		
 		/* randomise the practical sessions common to all the batches */
@@ -441,11 +440,11 @@ void timetable::randomise() {
 				batch[j][y1][x1*2+1]=batch[j][y2][x2*2+1];
 				batch[j][y2][x2*2+1]=temp;
 			}else {
-				int temp = batch[j][y1][2*(x1-1)];
-				batch[j][y1][2*(x1-1)]=batch[j][y2][2*(x2-1)];
-				batch[j][y2][2*(x2-1)]=temp;
-				batch[j][y1][(2*(x1-1))+1]=batch[j][y2][(2*(x2-1))+1];
-				batch[j][y2][(2*(x2-1))+1]=temp;
+				int temp = batch[j][y1][2*(x1-1)+1];
+				batch[j][y1][2*(x1-1)+1]=batch[j][y2][2*(x2-1)+1];
+				batch[j][y2][2*(x2-1)+1]=temp;
+				batch[j][y1][(2*(x1-1))+1+1]=batch[j][y2][(2*(x2-1))+1+1];
+				batch[j][y2][(2*(x2-1))+1+1]=temp;
 			}
 		}
 
@@ -455,11 +454,11 @@ void timetable::randomise() {
 		x2 = 2;
 		y2 = rand()%5;
 		for(int j=12;j<16;j++) {
-				int temp = batch[j][y1][x1*2];
-				batch[j][y1][x1*2]=batch[j][y2][x2*2];
-				batch[j][y2][x2*2]=temp;
+				int temp = batch[j][y1][x1*2+1];
 				batch[j][y1][x1*2+1]=batch[j][y2][x2*2+1];
 				batch[j][y2][x2*2+1]=temp;
+				batch[j][y1][x1*2+1+1]=batch[j][y2][x2*2+1+1];
+				batch[j][y2][x2*2+1+1]=temp;
 		}
 	}
 }
@@ -508,6 +507,7 @@ bool timetable::find_c4(int day, int session) {
 		function for class c4
 		should handle 12 to 15 batches
 	*/
+	int add_div=1;
 	if(labs_class_count[3]==6) {
 		/* checks wether atleast one lab has practical at a point of time */
 		//return check_filled();
@@ -541,15 +541,15 @@ bool timetable::find_c4(int day, int session) {
 					
 					
 					/* updation of all variables starts here */
-					batch[12][day][2*session]=labs_remaining[12][i];
-					batch[13][day][2*session]=labs_remaining[13][j];
-					batch[14][day][2*session]=labs_remaining[14][k];
-					batch[15][day][2*session]=labs_remaining[15][l];
+					batch[12][day][2*session+add_div]=labs_remaining[12][i];
+					batch[13][day][2*session+add_div]=labs_remaining[13][j];
+					batch[14][day][2*session+add_div]=labs_remaining[14][k];
+					batch[15][day][2*session+add_div]=labs_remaining[15][l];
 					
-					batch[12][day][2*session+1]=labs_remaining[12][i];
-					batch[13][day][2*session+1]=labs_remaining[13][j];
-					batch[14][day][2*session+1]=labs_remaining[14][k];
-					batch[15][day][2*session+1]=labs_remaining[15][l];
+					batch[12][day][2*session+1+add_div]=labs_remaining[12][i];
+					batch[13][day][2*session+1+add_div]=labs_remaining[13][j];
+					batch[14][day][2*session+1+add_div]=labs_remaining[14][k];
+					batch[15][day][2*session+1+add_div]=labs_remaining[15][l];
 
 					labs_occupied[labs_remaining[12][i]][day][session+1] += 1;
 					labs_occupied[labs_remaining[13][j]][day][session+1] += 1;
@@ -561,15 +561,15 @@ bool timetable::find_c4(int day, int session) {
 						(labs_occupied[labs_remaining[14][k]][day][session+1] > labs_maxlimit[labs_remaining[14][k]]) ||
 						(labs_occupied[labs_remaining[15][l]][day][session+1] > labs_maxlimit[labs_remaining[15][l]])
 						) {
-						batch[12][day][2*session]=0;
-						batch[13][day][2*session]=0;
-						batch[14][day][2*session]=0;
-						batch[15][day][2*session]=0;
+						batch[12][day][2*session+add_div]=0;
+						batch[13][day][2*session+add_div]=0;
+						batch[14][day][2*session+add_div]=0;
+						batch[15][day][2*session+add_div]=0;
 						
-						batch[12][day][2*session+1]=0;
-						batch[13][day][2*session+1]=0;
-						batch[14][day][2*session+1]=0;
-						batch[15][day][2*session+1]=0;
+						batch[12][day][2*session+1+add_div]=0;
+						batch[13][day][2*session+1+add_div]=0;
+						batch[14][day][2*session+1+add_div]=0;
+						batch[15][day][2*session+1+add_div]=0;
 
 						labs_occupied[labs_remaining[12][i]][day][session+1] -= 1;
 						labs_occupied[labs_remaining[13][j]][day][session+1] -= 1;
@@ -600,15 +600,15 @@ bool timetable::find_c4(int day, int session) {
 						if(possible)
 							return true;
 						else {
-							batch[12][day][2*session]=0;
-							batch[13][day][2*session]=0;
-							batch[14][day][2*session]=0;
-							batch[15][day][2*session]=0;
+							batch[12][day][2*session+add_div]=0;
+							batch[13][day][2*session+add_div]=0;
+							batch[14][day][2*session+add_div]=0;
+							batch[15][day][2*session+add_div]=0;
 							
-							batch[12][day][2*session+1]=0;
-							batch[13][day][2*session+1]=0;
-							batch[14][day][2*session+1]=0;
-							batch[15][day][2*session+1]=0;
+							batch[12][day][2*session+1+add_div]=0;
+							batch[13][day][2*session+1+add_div]=0;
+							batch[14][day][2*session+1+add_div]=0;
+							batch[15][day][2*session+1+add_div]=0;
 
 							/* revert labs_reaining array */
 							labs_remaining[12][i]=i;

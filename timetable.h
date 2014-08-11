@@ -7,7 +7,7 @@
 using namespace std;
 
 class timetable {
-	int batch[16][5][6]; /* stores the time table for labs [batch][day][session]*/
+	int batch[16][5][7]; /* stores the time table for labs [batch][day][session]*/
 	int labs_remaining[16][6]; /* stores the list of labs remaining per batch [batch][lab]*/
 	int labs_class_count[4]; /* stores the number of labs covered for each class [class] */
 	int labs_occupied[6][5][4]; /* stores the count of the labs occupied per lab subject [labs][day][session]*/
@@ -19,7 +19,7 @@ class timetable {
 	int lec_class_count[4][12];
 	int lecs_maxlimit[12];
 	string teachers_name[60]; /* stores the teachers names [teacher_number] */
-	int teachers[60][5][8]; /* stores time table for teachers as [teacher_number][day][session] */
+	int teachers[60][5][9]; /* stores time table for teachers as [teacher_number][day][session] */
 	int total_teachers;		/* total number of teacher */
 
 	string batch_no_to_str(int batch_number);

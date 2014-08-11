@@ -1124,7 +1124,7 @@ string timetable::get_teacher_timetable(int teacher_number, int day, int slot) {
 void timetable::execute() {
 	/* Generates the timetable,	should be called after the input is specified */
 	find_c1(0,0);
-	cout<<"Randomising\n";
+    cout<<"Randomising\n";
 	while(!check_filled())
 		randomise();
 	cout<<"Arranging teachers to labs\n";

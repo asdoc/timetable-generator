@@ -1,0 +1,13 @@
+<html>
+<head>
+    <title>{{TITLE}}</title>
+</head>
+<body>
+    <h1>{{TITLE}}</h1>
+    <ul>
+    {{#FORLOOP}}
+        <li>{{LOOP_MESSAGE}}</li>
+    {{/FORLOOP}}
+    </ul>
+</body>
+</html>

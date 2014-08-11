@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.setWindowTitle("Time Table generator");
     w.show();
+    w.generate();
     
     return a.exec();
 }

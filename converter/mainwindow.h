@@ -28,7 +28,7 @@ private:
     Ui::MainWindow *ui;
     QWebView *mWeb;
     QCTemplate mTemplate;
-private slots:
+public slots:
     void convert();
     void generate();
     void print();

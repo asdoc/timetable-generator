@@ -150,23 +150,36 @@ void MainWindow::generate()
 
     qDebug()<<"Executing\n";
     se.execute();
-
-    for(int i=0;i<4;i++)
+    int count = 1;
+   for(int i=0;i<1;i++)
     {
-        for(int j=0;j<6;j++)
+        for(int j=0;j<5;j++)
         {
-            for(int k=0;i<5;k++)
+            for(int k=0;k<6;k++)
             {
-                QString str = "b" + QString::number(4*k + j + 1);
-                if(se.is_lab(i,k,j))
-                    mTemplate[str] = se.get_batch_timetable(i,k,j++).c_str();
+                QString str = "b" + QString::number(count++);
+                qDebug()<<str;
+                if(se.is_lab(i,j,k))
+                {
+                    mTemplate[str] = se.get_batch_timetable(i,j,k).c_str();
+                    k++;
+                }
                 else
                 {
-                    QString html = QString(se.get_batch_timetable(i,k,j).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i,k,j+1).c_str());
-                    mTemplate[str] = html;
-                    j++;
+                    if(k<5)
+                    {
+                        QString html = QString(se.get_batch_timetable(i,j,k).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i,j,k+1).c_str());
+                        mTemplate[str] = html;
+                        k++;
+                    }
+                    else if(k==5)
+                    {
+                        QString html = QString(se.get_batch_timetable(i,j,k).c_str());
+                        mTemplate[str] = html;
+                    }
                 }
             }
+
         }
     }
 

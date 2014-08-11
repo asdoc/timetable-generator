@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Sun Aug 10 14:03:19 2014
+** Created: Tue Aug 12 02:02:11 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -31,15 +31,15 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: signature, parameters, type, tag, flags
-      12,   11,   11,   11, 0x0a,
-      22,   11,   11,   11, 0x0a,
-      33,   11,   11,   11, 0x0a,
+      16,   12,   11,   11, 0x0a,
+      29,   11,   11,   11, 0x0a,
+      40,   11,   11,   11, 0x0a,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0convert()\0generate()\0"
+    "MainWindow\0\0div\0convert(int)\0generate()\0"
     "print()\0"
 };
 
@@ -49,13 +49,12 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_ASSERT(staticMetaObject.cast(_o));
         MainWindow *_t = static_cast<MainWindow *>(_o);
         switch (_id) {
-        case 0: _t->convert(); break;
+        case 0: _t->convert((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->generate(); break;
         case 2: _t->print(); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData MainWindow::staticMetaObjectExtraData = {

@@ -18,6 +18,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+QString get_batch(int i)
+{
+    switch(i%4)
+    {
+        case 0:
+            return QString(QString("(K") + QString::number(i/4 + 1) + QString(")"));
+        case 1:
+            return QString(QString("(L") + QString::number(i/4 + 1) + QString(")"));
+        case 2:
+            return QString(QString("(M") + QString::number(i/4 + 1) + QString(")"));
+        case 3:
+            return QString(QString("(N") + QString::number(i/4 + 1) + QString(")"));
+    };
+}
+
 void MainWindow::generate()
 {
     vector <int> teachers_count[6];
@@ -151,42 +166,49 @@ void MainWindow::generate()
     qDebug()<<"Executing\n";
     se.execute();
     int count = 1;
-   for(int i=0;i<1;i++)
+    for(int i=0;i<3;i++)
     {
-        for(int j=0;j<5;j++)
+        for(int j=0;j<6;j++)
         {
-            for(int k=0;k<6;k++)
+            for(int k=0;k<7;k++)
             {
                 QString str = "b" + QString::number(count++);
                 qDebug()<<str;
-                if(se.is_lab(i,j,k))
+                if(se.is_lab(i*4,j,k))
                 {
-                    mTemplate[str] = se.get_batch_timetable(i,j,k).c_str();
+                    mTemplate[str] = "";
+                    for(int p=0;p<4;p++)
+                    {
+                        mTemplate[str] += QString(se.get_batch_timetable(i*4 + p,j,k).c_str() + get_batch(i*4 + p) + QString("<br>") );
+
+                    }
+
                     k++;
                 }
                 else
                 {
-                    if(k<5)
+                    if(k<6)
                     {
-                        QString html = QString(se.get_batch_timetable(i,j,k).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i,j,k+1).c_str());
+                        QString html = QString(se.get_batch_timetable(i*4,j,k).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i*4,j,k+1).c_str());
                         mTemplate[str] = html;
                         k++;
                     }
-                    else if(k==5)
+                    else if(k==6)
                     {
-                        QString html = QString(se.get_batch_timetable(i,j,k).c_str());
+                        QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
                         mTemplate[str] = html;
                     }
                 }
             }
 
         }
+        count = 1;
+        convert(i+1);
     }
 
-    convert();
 }
 
-void MainWindow::convert()
+void MainWindow::convert(int div)
 {
 
 
@@ -197,9 +219,10 @@ void MainWindow::convert()
     mTemplate["b5"] = "Lab 5";
     mTemplate["b6"] = "Lab 6";*/
 
+    mTemplate["div"] = QString::number(div);
     QString html = mTemplate.expandFile(":/SE-I.html");
     QTextDocument document(html);
-    QTextDocumentWriter writer("intermediate_data.html");
+    QTextDocumentWriter writer("intermediate_data(division " + QString::number(div) + ").html");
     writer.setFormat("plaintext");
     writer.write(&document);
 
@@ -216,7 +239,7 @@ void MainWindow::convert()
     //QMessageBox::information(0,"lol",document.toHtml());
 
     connect(mWeb,SIGNAL(loadFinished(bool)),this,SLOT(print()));
-    mWeb->load(QUrl::fromLocalFile(QDir::currentPath() + "/intermediate_data.html"));
+    mWeb->load(QUrl::fromLocalFile(QDir::currentPath() + "/intermediate_data(division " + QString::number(div) + ").html"));
     this->setCentralWidget(mWeb);
 }
 

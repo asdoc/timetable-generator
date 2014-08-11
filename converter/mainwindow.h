@@ -29,7 +29,7 @@ private:
     QWebView *mWeb;
     QCTemplate mTemplate;
 public slots:
-    void convert();
+    void convert(int div);
     void generate();
     void print();
 };

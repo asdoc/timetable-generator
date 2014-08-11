@@ -113,6 +113,22 @@ string timetable::get_lab_name(int lab_number) {
 	return "";
 }
 
+void timetable::assign_sat() {
+	int add_div;
+	for(int i=0;i<4;i++) {
+		for(int j=0;j<5;j++) {
+			if(i<3) {
+				batch[4*i][5][j]=batch[4*i][j][6];
+				// TODO update teachers timetable
+			}
+			else {
+				batch[4*i][5][j+1]=batch[4*i][j][0];
+				// TODO update teachers timetable
+			}
+		}
+	}
+}
+
 bool timetable::assign_lecs1(int lec_number, int teacher_index, int class_no){
 	int add_div=0;
 	if(class_no==3) add_div=1;
@@ -1136,6 +1152,9 @@ void timetable::execute() {
 	if(!assign_lecs3(9,0)) cout<<"Could not arrange lec 9\n";
 	if(!assign_lecs3(10,0)) cout<<"Could not arrange lec 10\n";
 	if(!assign_lecs1(11,0,0)) cout<<"Could not arrange lec 11\n";
+	
+	cout<<"Assigning saturday\n";
+	assign_sat();
 }
 
 int timetable::get_total_teachers() {

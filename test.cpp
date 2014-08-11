@@ -139,7 +139,7 @@ int main() {
 	for(int i=0;i<16;i++) {
 		cout<<"Class "<<1+(i/4)<<" Batch "<<1+(i%4)<<"\n";
 		for(int j=0;j<7;j++) {
-			for(int k=0;k<5;k++) {
+			for(int k=0;k<6;k++) {
 				cout<<se.get_batch_timetable(i,k,j)<<" ";
 			}
 			cout<<"\n";
@@ -150,7 +150,7 @@ int main() {
 	for(int i=0;i<se.get_total_teachers();i++) {
 		cout<<se.get_teacher_name(i)<<": \n";
 		for(int j=0;j<9;j++) {
-			for(int k=0;k<5;k++) {
+			for(int k=0;k<6;k++) {
 				cout<<se.get_teacher_timetable(i,k,j)<<" ";
 			}
 			cout<<"\n";

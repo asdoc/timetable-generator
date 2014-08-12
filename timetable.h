@@ -71,10 +71,16 @@ public:
 	string get_teacher_timetable(int teacher_number, int day, int slot);
 	string get_teacher_name(int teacher_number);
 	
+	/* returns the name of the teacher assigned to batch and lab */
 	string get_batch_lab_teacher(int batch,int lab);
+	
+	/* returns the name of the teacher assigned to class_no and lec_no */
 	string get_class_lec_teacher(int class_no, int lec_no);
 	
 	bool is_lab(int batch_number, int day, int slot);
+	
+	/* returns true if all labs and lectures are arranged properly */
 	bool success();
+	
 	int get_total_teachers();
 };

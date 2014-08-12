@@ -69,7 +69,7 @@ string timetable::batch_no_to_str(int batch_number) {
 	string ans = "Batch";
 	if(batch_number>16) ans="Class";
 	if(batch_number==0) {
-		ans = ".......";
+		ans = "       ";
 	}
 	else if(batch_number<10) {
 		ans += "0";
@@ -92,35 +92,35 @@ string timetable::batch_no_to_str(int batch_number) {
 string timetable::get_lab_name(int lab_number) {
 	switch(lab_number) {
 		case 0:
-			return "......... ";
+			return "         ";
 		case 1:
-			return "+DSPSL    ";
+			return "DSPSL    ";
 		case 2:
-			return "+DEL      ";
+			return "DEL      ";
 		case 3:
-			return "+OSAL     ";
+			return "OSAL     ";
 		case 4:
-			return "+SSL      ";
+			return "SSL      ";
 		case 5:
-			return "+MPAL     ";
+			return "MPAL     ";
 		case 6:
-			return "-DS       ";
+			return "DS       ";
 		case 7:
-			return "-DSPS     ";
+			return "DSPS     ";
 		case 8:
-			return "-MPA      ";
+			return "MPA      ";
 		case 9:
-			return "-OSA      ";
+			return "OSA      ";
 		case 10:
-			return "-DELD     ";
+			return "DELD     ";
 		case 11:
-			return "-SS       ";
+			return "SS       ";
 		case 12:
-			return "-DSPS PRL ";
+			return "DSPS PRL ";
 		case 13:
-			return "-OSA PRL  ";
+			return "OSA PRL  ";
 		case 14:
-			return "-MPA PRL  ";
+			return "MPA PRL  ";
 	}
 	return "";
 }

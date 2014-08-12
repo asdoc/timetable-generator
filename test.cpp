@@ -133,6 +133,40 @@ int main() {
 	t2.push_back("ppj");
 	se.set_teachers_lec(11,t1,t2);
 
+	t1.clear();
+	t2.clear();
+	t1.push_back(1);
+	t1.push_back(1);
+	t1.push_back(1);
+	t1.push_back(1);
+	t2.push_back("ajj");
+	t2.push_back("pvh");
+	t2.push_back("new7");
+	t2.push_back("bdz");
+	se.set_teachers_lec(12,t1,t2);
+
+	t1.clear();
+	t2.clear();
+	t1.push_back(1);
+	t1.push_back(1);
+	t1.push_back(1);
+	t1.push_back(1);
+	t2.push_back("vvb");
+	t2.push_back("ars");
+	t2.push_back("pvj");
+	t2.push_back("rak");
+	se.set_teachers_lec(13,t1,t2);
+
+	t1.clear();
+	t2.clear();
+	t1.push_back(2);
+	t1.push_back(1);
+	t1.push_back(1);
+	t2.push_back("sng");
+	t2.push_back("ars");
+	t2.push_back("rvb");
+	se.set_teachers_lec(14,t1,t2);
+
 	cout<<"Executing\n";
 	se.execute();
 	
@@ -144,7 +178,7 @@ int main() {
 			}
 			cout<<"\n";
 		}
-		cout<<"--------------------------------------------\n";
+		cout<<"--------------------------------------------------------------------\n";
 	}
 	
 	for(int i=0;i<se.get_total_teachers();i++) {
@@ -155,6 +189,6 @@ int main() {
 			}
 			cout<<"\n";
 		}
-		cout<<"----------------------------------------------\n";
+		cout<<"-----------------------------------------------------\n";
 	}
 }

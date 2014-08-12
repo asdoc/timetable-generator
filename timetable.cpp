@@ -44,6 +44,9 @@ timetable::timetable() {
 	lecs_maxlimit[9]=3;
 	lecs_maxlimit[10]=3;
 	lecs_maxlimit[11]=1;
+	lecs_maxlimit[12]=1;
+	lecs_maxlimit[13]=1;
+	lecs_maxlimit[14]=1;
 
 	for(int i=0;i<60;i++) {
 		for(int j=0;j<5;j++) {
@@ -53,7 +56,7 @@ timetable::timetable() {
 		}
 	}
 	for(int i=0;i<4;i++) {
-		for(int j=0;j<12;j++) {
+		for(int j=0;j<15;j++) {
 			lec_class_count[i][j]=0;
 		}
 	}
@@ -86,29 +89,35 @@ string timetable::batch_no_to_str(int batch_number) {
 string timetable::get_lab_name(int lab_number) {
 	switch(lab_number) {
 		case 0:
-			return "...... ";
+			return "......... ";
 		case 1:
-			return "+DSPSL ";
+			return "+DSPSL    ";
 		case 2:
-			return "+DEL   ";
+			return "+DEL      ";
 		case 3:
-			return "+OSAL  ";
+			return "+OSAL     ";
 		case 4:
-			return "+SSL   ";
+			return "+SSL      ";
 		case 5:
-			return "+MPAL  ";
+			return "+MPAL     ";
 		case 6:
-			return "-DS    ";
+			return "-DS       ";
 		case 7:
-			return "-DSPS  ";
+			return "-DSPS     ";
 		case 8:
-			return "-MPA   ";
+			return "-MPA      ";
 		case 9:
-			return "-OSA   ";
+			return "-OSA      ";
 		case 10:
-			return "-DELD  ";
+			return "-DELD     ";
 		case 11:
-			return "-SS    ";
+			return "-SS       ";
+		case 12:
+			return "-DSPS PRL ";
+		case 13:
+			return "-OSA PRL  ";
+		case 14:
+			return "-MPA PRL  ";
 	}
 	return "";
 }
@@ -1152,6 +1161,9 @@ void timetable::execute() {
 	if(!assign_lecs3(9,0)) cout<<"Could not arrange lec 9\n";
 	if(!assign_lecs3(10,0)) cout<<"Could not arrange lec 10\n";
 	if(!assign_lecs1(11,0,0)) cout<<"Could not arrange lec 11\n";
+	if(!assign_lecs1(12,0,0)) cout<<"Could not arrange lec 12\n";
+	if(!assign_lecs1(13,0,0)) cout<<"Could not arrange lec 13\n";
+	if(!assign_lecs1(14,0,0)) cout<<"Could not arrange lec 14\n";
 	
 	cout<<"Assigning saturday\n";
 	assign_sat();

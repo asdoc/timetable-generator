@@ -21,6 +21,9 @@ class timetable {
 	string teachers_name[60]; /* stores the teachers names [teacher_number] */
 	int teachers[60][6][9]; /* stores time table for teachers as [teacher_number][day][session] */
 	int total_teachers;		/* total number of teacher */
+	
+	int batch_lab_teacher[16][6];
+	int class_lec_teacher[4][15];
 
 	string batch_no_to_str(int batch_number);
 	string get_lab_name(int lab_number);
@@ -30,6 +33,7 @@ class timetable {
 	bool assign_lecs4(int lec_number, int class_no);
 	bool assign_lecs3(int lec_number, int class_no);
 	bool assign_lecs1(int lec_number, int teacher_index, int class_no);
+	bool success_var;
 	void assign_sat();
 
 	/* randomly changes the position the labs */
@@ -67,6 +71,10 @@ public:
 	string get_teacher_timetable(int teacher_number, int day, int slot);
 	string get_teacher_name(int teacher_number);
 	
+	string get_batch_lab_teacher(int batch,int lab);
+	string get_class_lec_teacher(int class_no, int lec_no);
+	
 	bool is_lab(int batch_number, int day, int slot);
+	bool success();
 	int get_total_teachers();
 };

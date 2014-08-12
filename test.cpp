@@ -170,6 +170,11 @@ int main() {
 	cout<<"Executing\n";
 	se.execute();
 	
+	if(!se.success()) {
+		cout<<"An error occured\n";
+		return 1;
+	}
+	
 	for(int i=0;i<16;i++) {
 		cout<<"Class "<<1+(i/4)<<" Batch "<<1+(i%4)<<"\n";
 		for(int j=0;j<7;j++) {
@@ -190,5 +195,19 @@ int main() {
 			cout<<"\n";
 		}
 		cout<<"-----------------------------------------------------\n";
+	}
+	
+	for(int i=0;i<16;i++) {
+		cout<<"Class "<<1+(i/4)<<" Batch "<<1+(i%4)<<"\n";
+		for(int j=1;j<6;j++) {
+			cout<<"Lab "<<j<<": "<<se.get_batch_lab_teacher(i,j)<<"\n";
+		}
+	}
+	
+	for(int i=0;i<4;i++) {
+		cout<<"Class "<<i<<"\n";
+		for(int j=6;j<15;j++) {
+			cout<<"Lecture "<<j<<": "<<se.get_class_lec_teacher(i,j)<<"\n";
+		}
 	}
 }

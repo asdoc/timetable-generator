@@ -8,6 +8,9 @@
 using namespace std;
 
 timetable::timetable() {
+
+	success_var = false;
+	
 	total_teachers=0;
 	for(int i=0;i<16;i++) {
 		for(int j=0;j<5;j++) {
@@ -185,6 +188,10 @@ bool timetable::assign_lecs1(int lec_number, int teacher_index, int class_no){
 			teachers[
 					lec_teachers_index[lec_number][teacher_index]
 				][tmp_days[i]][tmp_slots[i]+add_div] = (class_no+17);
+				
+			class_lec_teacher[class_no][lec_number] =
+				lec_teachers_index[lec_number][teacher_index];
+							
 			/* end of updation of variables */
 		
 		
@@ -201,6 +208,8 @@ bool timetable::assign_lecs1(int lec_number, int teacher_index, int class_no){
 				teachers[
 						lec_teachers_index[lec_number][teacher_index]
 					][tmp_days[i]][tmp_slots[i]+add_div] = 0;
+					
+				class_lec_teacher[class_no][lec_number] = -1 ;
 			}
 		}
 	}
@@ -252,6 +261,10 @@ bool timetable::assign_lecs3(int lec_number, int class_no){
 					teachers[
 							lec_teachers_index[lec_number][teacher_index]
 						][tmp_days[k]][tmp_slots[k]+add_div] = (class_no+17);
+						
+					class_lec_teacher[class_no][lec_number] =
+							lec_teachers_index[lec_number][teacher_index];
+							
 					/* end of updation of variables */
 					
 					/* check for the next class */
@@ -281,6 +294,8 @@ bool timetable::assign_lecs3(int lec_number, int class_no){
 						teachers[
 								lec_teachers_index[lec_number][teacher_index]
 							][tmp_days[k]][tmp_slots[k]+add_div] = 0;
+							
+						class_lec_teacher[class_no][lec_number] = -1;
 					}
 				}
 			}
@@ -341,6 +356,10 @@ bool timetable::assign_lecs4(int lec_number, int class_no){
 						teachers[
 								lec_teachers_index[lec_number][teacher_index]
 							][tmp_days[l]][tmp_slots[l]+add_div] = (class_no+17);
+							
+						class_lec_teacher[class_no][lec_number] =
+							lec_teachers_index[lec_number][teacher_index];
+						
 						/* end of updation of variables */
 						
 						
@@ -376,6 +395,7 @@ bool timetable::assign_lecs4(int lec_number, int class_no){
 									lec_teachers_index[lec_number][teacher_index]
 								][tmp_days[l]][tmp_slots[l]+add_div] = 0;
 
+							class_lec_teacher[class_no][lec_number] = 0;
 						}
 					}
 				}
@@ -414,12 +434,14 @@ bool timetable::assign_lab_teachers(int batch_number,int lab) {
 		}
 		if(possible) {
 			lab_teachers_count[lab][j]-=1;
+			batch_lab_teacher[batch_number][lab]=lab_teachers_index[lab][j];
 			for(int k=0;k<day_store.size();k++) {
 				teachers[lab_teachers_index[lab][j]][day_store[k]][2*(slot_store[k]+add_div)]=batch_number+1;
 				teachers[lab_teachers_index[lab][j]][day_store[k]][(2*(slot_store[k]+add_div))+1]=batch_number+1;
 			}
 			if(assign_lab_teachers(batch_number+1,lab)) return true;
 			else {
+				batch_lab_teacher[batch_number][lab]=-1;
 				lab_teachers_count[lab][j]+=1;
 				for(int k=0;k<day_store.size();k++) {
 					teachers[lab_teachers_index[lab][j]][day_store[k]][2*(slot_store[k]+add_div)]=0;
@@ -1155,18 +1177,58 @@ void timetable::execute() {
 	cout<<"Arranging teachers to labs\n";
 	for(int i=1;i<6;i++) assign_lab_teachers(0,i);
 	cout<<"Arranging lectures\n";
-	if(!assign_lecs4(6,0)) cout<<"Could not arrange lec 6\n";
-	if(!assign_lecs4(7,0)) cout<<"Could not arrange lec 7\n";
-	if(!assign_lecs3(8,0)) cout<<"Could not arrange lec 8\n";
-	if(!assign_lecs3(9,0)) cout<<"Could not arrange lec 9\n";
-	if(!assign_lecs3(10,0)) cout<<"Could not arrange lec 10\n";
-	if(!assign_lecs1(11,0,0)) cout<<"Could not arrange lec 11\n";
-	if(!assign_lecs1(12,0,0)) cout<<"Could not arrange lec 12\n";
-	if(!assign_lecs1(13,0,0)) cout<<"Could not arrange lec 13\n";
-	if(!assign_lecs1(14,0,0)) cout<<"Could not arrange lec 14\n";
+	success_var=true;
+	if(!assign_lecs4(6,0)) {
+		cout<<"Could not arrange lec 6\n";
+		success_var=false;
+	}
+	if(!assign_lecs4(7,0)) {
+		cout<<"Could not arrange lec 7\n";
+		success_var=false;
+	}
+	if(!assign_lecs3(8,0)) {
+		cout<<"Could not arrange lec 8\n";
+		success_var=false;
+	}
+	if(!assign_lecs3(9,0)) {
+		cout<<"Could not arrange lec 9\n";
+		success_var=false;
+	}
+	if(!assign_lecs3(10,0)) {
+		cout<<"Could not arrange lec 10\n";
+		success_var=false;
+	}
+	if(!assign_lecs1(11,0,0)) {
+		cout<<"Could not arrange lec 11\n";
+		success_var=false;
+	}
+	if(!assign_lecs1(12,0,0)) {
+		cout<<"Could not arrange lec 12\n";
+		success_var=false;
+	}
+	if(!assign_lecs1(13,0,0)) {
+		cout<<"Could not arrange lec 13\n";
+		success_var=false;
+	}
+	if(!assign_lecs1(14,0,0)) {
+		cout<<"Could not arrange lec 14\n";
+		success_var=false;
+	} 	 	
 	
 	cout<<"Assigning saturday\n";
 	assign_sat();
+}
+
+string timetable::get_batch_lab_teacher(int batch_no,int lab_no) {
+	return teachers_name[batch_lab_teacher[batch_no][lab_no]];
+}
+
+string timetable::get_class_lec_teacher(int class_no,int lec_no) {
+	if(class_lec_teacher[class_no][lec_no]<0 || class_lec_teacher[class_no][lec_no]>=total_teachers) {
+		cout<<"Error at class "<<class_no<<" and lec "<<lec_no<<"\n";
+		return "Error";
+	}
+	return teachers_name[class_lec_teacher[class_no][lec_no]];
 }
 
 int timetable::get_total_teachers() {
@@ -1180,4 +1242,8 @@ string timetable::get_teacher_name(int teacher_number) {
 bool timetable::is_lab(int batch_number, int day, int slot) {
 	if(batch[batch_number][day][slot]>0 and batch[batch_number][day][slot]<6) return true;
 	else return false;
+}
+
+bool timetable::success() {
+	return success_var;
 }

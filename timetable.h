@@ -49,6 +49,8 @@ class timetable {
 	bool find_c2(int day, int session);
 	bool find_c1(int day, int session);
 
+	string output_log;
+	string error_log;
 public:
 	/* initialises variables */
 	timetable();
@@ -83,4 +85,12 @@ public:
 	bool success();
 	
 	int get_total_teachers();
+	
+	string get_output_log() {
+		return output_log;
+	}
+	
+	string get_error_log() {
+		return error_log;
+	}
 };

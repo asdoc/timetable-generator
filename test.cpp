@@ -171,7 +171,7 @@ int main() {
 	se.execute();
 	
 	if(!se.success()) {
-		cout<<"An error occured\n";
+		cout<<"An error occured: \n"<<se.get_error_log();
 		return 1;
 	}
 	

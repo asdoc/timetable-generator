@@ -1240,3 +1240,11 @@ bool timetable::is_lab(int batch_number, int day, int slot) {
 bool timetable::success() {
 	return success_var;
 }
+
+string timetable::get_output_log() {
+	return output_log;
+}
+
+string timetable::get_error_log() {
+	return error_log;
+}

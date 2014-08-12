@@ -86,11 +86,6 @@ public:
 	
 	int get_total_teachers();
 	
-	string get_output_log() {
-		return output_log;
-	}
-	
-	string get_error_log() {
-		return error_log;
-	}
+	string get_output_log();
+	string get_error_log();
 };

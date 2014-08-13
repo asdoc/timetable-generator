@@ -226,10 +226,12 @@ int main() {
 	}
 	
 	for(int i=0;i<4;i++) {
-		for(int j=0;j<6;j++) {
-			for(int k=0;k<7;k++) {
-				
+		cout<<"\nClass: "<<i+1<<"\n";
+		for(int j=0;j<7;j++) {
+			for(int k=0;k<6;k++) {
+				cout<<se.get_class_room(i,k,j)<<" ";
 			}
+			cout<<"\n";
 		}
 	}
 }

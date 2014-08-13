@@ -92,7 +92,6 @@ string timetable::batch_no_to_str(int batch_number) {
 string timetable::get_lab_name(int lab_number) {
 	switch(lab_number) {
 		case 0:
-			return ".........";
 			return "         ";
 		case 1:
 			return "DSPSL    ";

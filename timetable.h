@@ -29,7 +29,6 @@ class timetable {
 
 	string batch_no_to_str(int batch_number);
 	string get_lab_name(int lab_number);
-	string get_class_room(int class_no,int day,int slot);
 	
 	/* function for the assignment of teachers to lab (assumes that labs have been arranged) */
 	bool assign_lab_teachers(int batch_number,int lab);
@@ -76,6 +75,7 @@ public:
 	string get_batch_timetable(int batch_number, int day, int slot);
 	string get_teacher_timetable(int teacher_number, int day, int slot);
 	string get_teacher_name(int teacher_number);
+	string get_class_room(int class_no,int day,int slot);
 	
 	/* returns the name of the teacher assigned to batch and lab */
 	string get_batch_lab_teacher(int batch,int lab);

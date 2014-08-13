@@ -476,11 +476,10 @@ void timetable::randomise() {
 					int day_to_change = days[( rand() % days.size() )];
 					
 					for(int k=0;k<12;k++) {
-						int tmpi=batch[k][i][2*j];
 						batch[k][i][2*j]=batch[k][day_to_change][0];
-						batch[k][2*day_to_change][0]=tmpi;
 						batch[k][i][2*j+1]=batch[k][day_to_change][1];
-						batch[k][2*day_to_change][1]=tmpi;
+						batch[k][day_to_change][0]=0;
+						batch[k][day_to_change][1]=0;
 					}
 					
 				}

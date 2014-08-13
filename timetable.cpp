@@ -1156,6 +1156,14 @@ int timetable::set_teachers_lec(int lec_number, vector <int> teachers_count_list
 	}
 }
 
+int timetable::add_lab_name(int lab_number,string name) {
+	if(lab_number>0 && lab_number<6) {
+		lab_name[lab_number].push_back(name);
+		return 1;
+	}
+	return 0;
+}
+
 string timetable::get_teacher_timetable(int teacher_number, int day, int slot) {
 	/* returns the name of the batch assigned to the teacher teacher_number of lab lab_number */
 	return batch_no_to_str(teachers[teacher_number][day][slot]);
@@ -1217,6 +1225,32 @@ string timetable::get_batch_lab_teacher(int batch_no,int lab_no) {
 	return teachers_name[batch_lab_teacher[batch_no][lab_no]];
 }
 
+string timetable::get_batch_lab_name(int batch_no,int lab_no) {
+	/* This function is vulnerable to lab clashes, but will work fine with the current input of lab subjects */
+	int index = 0,tmp_day,tmp_slot;
+	int add_div=0;
+	if(batch_no>=12) add_div=1;
+	for(int i=0;i<5;i++) {
+		for(int j=0;j<6;i++) {
+			if(batch[batch_no][i][j+add_div]==lab_no) {
+				tmp_day=i;
+				tmp_slot=j;
+				break;
+			}
+		}
+		if(batch[batch_no][tmp_day][2*tmp_slot]==lab_no) break;
+	}
+	for(int i=0;i<12;i++) {
+		if((tmp_slot+(2*add_div))>=6) break;
+		if(batch_no==i) break;
+		if(batch[i][tmp_day][(tmp_slot+(2*add_div))]==lab_no) index += 1;
+	}
+	for(int i=12;i<batch_no;i++) {
+		if(batch[i][tmp_day][tmp_slot+add_div]==lab_no) index += 1;
+	}
+	return lab_name[lab_no][index];
+}
+
 string timetable::get_class_lec_teacher(int class_no,int lec_no) {
 	if(class_lec_teacher[class_no][lec_no]<0 || class_lec_teacher[class_no][lec_no]>=total_teachers) {
 		return "Error";
@@ -1230,6 +1264,18 @@ int timetable::get_total_teachers() {
 
 string timetable::get_teacher_name(int teacher_number) {
 	return teachers_name[teacher_number];
+}
+
+string timetable::get_class_room(int class_no,int day=0,int slot=0) {
+	if(class_no==0) return "A211";
+	if(class_no==1) return "A212";
+	if(class_no==2) return "A213";
+	if(is_lab(class_no*4,day,slot)) return "    ";
+	if(slot>=6) return "A211";
+	if(batch[0][day][slot+1]<6) return "A211";
+	if(batch[4][day][slot+1]<6) return "A212";
+	if(batch[8][day][slot+1]<6) return "A213";
+	return "othr";
 }
 
 bool timetable::is_lab(int batch_number, int day, int slot) {

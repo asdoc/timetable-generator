@@ -24,9 +24,12 @@ class timetable {
 	
 	int batch_lab_teacher[16][6];
 	int class_lec_teacher[4][15];
+	
+	vector <string> lab_name[6];
 
 	string batch_no_to_str(int batch_number);
 	string get_lab_name(int lab_number);
+	string get_class_room(int class_no,int day,int slot);
 	
 	/* function for the assignment of teachers to lab (assumes that labs have been arranged) */
 	bool assign_lab_teachers(int batch_number,int lab);
@@ -63,6 +66,7 @@ public:
 	/* input functions, must be called before executing the actual timetable */
 	int set_teachers_lab(int lab_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
 	int set_teachers_lec(int lec_number, vector<int> teachers_count_list, vector<string> teachers_name_list);
+	int add_lab_name(int lab_number,string name);
 	
 	/* Generates the timetable,	must be called after the input is specified */
 	void execute();
@@ -75,6 +79,9 @@ public:
 	
 	/* returns the name of the teacher assigned to batch and lab */
 	string get_batch_lab_teacher(int batch,int lab);
+	
+	/* returns the name of the lab for that particular batch */
+	string get_batch_lab_name(int batch,int lab);
 	
 	/* returns the name of the teacher assigned to class_no and lec_no */
 	string get_class_lec_teacher(int class_no, int lec_no);

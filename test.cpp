@@ -167,6 +167,20 @@ int main() {
 	t2.push_back("rvb");
 	se.set_teachers_lec(14,t1,t2);
 
+	se.add_lab_name(1,"A208");
+	se.add_lab_name(1,"A209");
+	
+	se.add_lab_name(2,"C004");
+	
+	se.add_lab_name(3,"A209");
+	se.add_lab_name(3,"A306");
+	
+	se.add_lab_name(4,"SSL1");
+	se.add_lab_name(4,"SSL2");
+	
+	se.add_lab_name(5,"A202");
+	se.add_lab_name(5,"A203");
+	
 	cout<<"Executing\n";
 	se.execute();
 	
@@ -200,7 +214,7 @@ int main() {
 	for(int i=0;i<16;i++) {
 		cout<<"Class "<<1+(i/4)<<" Batch "<<1+(i%4)<<"\n";
 		for(int j=1;j<6;j++) {
-			cout<<"Lab "<<j<<": "<<se.get_batch_lab_teacher(i,j)<<"\n";
+			cout<<"Lab "<<j<<": "<<se.get_batch_lab_teacher(i,j)<<": "<<se.get_batch_lab_name(i,j)<<"\n";
 		}
 	}
 	
@@ -208,6 +222,14 @@ int main() {
 		cout<<"Class "<<i<<"\n";
 		for(int j=6;j<15;j++) {
 			cout<<"Lecture "<<j<<": "<<se.get_class_lec_teacher(i,j)<<"\n";
+		}
+	}
+	
+	for(int i=0;i<4;i++) {
+		for(int j=0;j<6;j++) {
+			for(int k=0;k<7;k++) {
+				
+			}
 		}
 	}
 }

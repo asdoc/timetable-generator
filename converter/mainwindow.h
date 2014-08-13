@@ -26,12 +26,15 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    QWebView *mWeb;
     QCTemplate mTemplate;
+    int current_div;
+    void display(int);
 public slots:
     void convert(int div);
     void generate();
     void print();
+    void next();
+    void prev();
 };
 
 #endif // MAINWINDOW_H

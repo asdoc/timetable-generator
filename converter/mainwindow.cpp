@@ -7,14 +7,19 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->statusBar->setToolTip("Press the button to convert");
+    current_div = 1;
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(generate()));
-    mWeb = new QWebView(this);
-    mWeb->setGeometry(0,0,200,200);
+    connect(ui->NextButton, SIGNAL(clicked()), this, SLOT(next()));
+    connect(ui->PrevButton, SIGNAL(clicked()), this, SLOT(prev()));
+
+    connect(ui->mWeb,SIGNAL(loadFinished(bool)),this,SLOT(print()));
+
+    ui->NextButton->hide();
+    ui->PrevButton->hide();
 }
 
 MainWindow::~MainWindow()
 {
-    delete mWeb;
     delete ui;
 }
 
@@ -23,18 +28,19 @@ QString get_batch(int i)
     switch(i%4)
     {
         case 0:
-            return QString(QString("(K") + QString::number(i/4 + 1) + QString(")"));
+            return QString(QString("(E") + QString::number(i/4 + 1) + QString(")"));
         case 1:
-            return QString(QString("(L") + QString::number(i/4 + 1) + QString(")"));
+            return QString(QString("(F") + QString::number(i/4 + 1) + QString(")"));
         case 2:
-            return QString(QString("(M") + QString::number(i/4 + 1) + QString(")"));
+            return QString(QString("(G") + QString::number(i/4 + 1) + QString(")"));
         case 3:
-            return QString(QString("(N") + QString::number(i/4 + 1) + QString(")"));
+            return QString(QString("(H") + QString::number(i/4 + 1) + QString(")"));
     };
 }
 
 void MainWindow::generate()
 {
+    ui->statusBar->clearMessage();
     vector <int> teachers_count[6];
     vector <string> teachers_name[6];
 
@@ -97,7 +103,7 @@ void MainWindow::generate()
     teachers_name[5].push_back("ssh");
 
     timetable se;
-    cout<<"Setting variables\n";
+    qDebug()<<"Setting variables\n";
 
     for(int i=1;i<6;i++) {
         if(!se.set_teachers_lab(i,teachers_count[i],teachers_name[i])) {
@@ -163,17 +169,70 @@ void MainWindow::generate()
     t2.push_back("ppj");
     se.set_teachers_lec(11,t1,t2);
 
+    t1.clear();
+    t2.clear();
+    t1.push_back(1);
+    t1.push_back(1);
+    t1.push_back(1);
+    t1.push_back(1);
+    t2.push_back("ajj");
+    t2.push_back("pvh");
+    t2.push_back("new7");
+    t2.push_back("bdz");
+    se.set_teachers_lec(12,t1,t2);
+
+    t1.clear();
+    t2.clear();
+    t1.push_back(1);
+    t1.push_back(1);
+    t1.push_back(1);
+    t1.push_back(1);
+    t2.push_back("vvb");
+    t2.push_back("ars");
+    t2.push_back("pvj");
+    t2.push_back("rak");
+    se.set_teachers_lec(13,t1,t2);
+
+    t1.clear();
+    t2.clear();
+    t1.push_back(2);
+    t1.push_back(1);
+    t1.push_back(1);
+    t2.push_back("sng");
+    t2.push_back("ars");
+    t2.push_back("rvb");
+    se.set_teachers_lec(14,t1,t2);
+
+    se.add_lab_name(1,"A208");
+    se.add_lab_name(1,"A209");
+
+    se.add_lab_name(2,"C004");
+
+    se.add_lab_name(3,"A209");
+    se.add_lab_name(3,"A306");
+
+    se.add_lab_name(4,"SSL1");
+    se.add_lab_name(4,"SSL2");
+
+    se.add_lab_name(5,"A202");
+    se.add_lab_name(5,"A203");
+
     qDebug()<<"Executing\n";
     se.execute();
+
+    if(!se.success()) {
+        qDebug()<<"An error occured: \n"<<se.get_error_log().c_str();
+        ui->statusBar->showMessage("An error occured: " + QString(se.get_error_log().c_str()));
+        return;
+    }
     int count = 1;
-    for(int i=0;i<3;i++)
+    for(int i=0;i<4;i++)
     {
         for(int j=0;j<6;j++)
         {
             for(int k=0;k<7;k++)
             {
                 QString str = "b" + QString::number(count++);
-                qDebug()<<str;
                 if(se.is_lab(i*4,j,k))
                 {
                     mTemplate[str] = "";
@@ -205,7 +264,9 @@ void MainWindow::generate()
         count = 1;
         convert(i+1);
     }
-
+    display(1);
+    ui->NextButton->show();
+    ui->PrevButton->show();
 }
 
 void MainWindow::convert(int div)
@@ -218,9 +279,12 @@ void MainWindow::convert(int div)
     mTemplate["b4"] = "Lab 4";
     mTemplate["b5"] = "Lab 5";
     mTemplate["b6"] = "Lab 6";*/
-
+    QString html;
     mTemplate["div"] = QString::number(div);
-    QString html = mTemplate.expandFile(":/SE-I.html");
+    if(div!=4)
+        html = mTemplate.expandFile(":/SE-I.html");
+    else
+        html = mTemplate.expandFile(":/SE-IV.html");
     QTextDocument document(html);
     QTextDocumentWriter writer("intermediate_data(division " + QString::number(div) + ").html");
     writer.setFormat("plaintext");
@@ -238,9 +302,37 @@ void MainWindow::convert(int div)
     file.close();*/
     //QMessageBox::information(0,"lol",document.toHtml());
 
-    connect(mWeb,SIGNAL(loadFinished(bool)),this,SLOT(print()));
-    mWeb->load(QUrl::fromLocalFile(QDir::currentPath() + "/intermediate_data(division " + QString::number(div) + ").html"));
-    this->setCentralWidget(mWeb);
+
+
+}
+
+void MainWindow::display(int div)
+{
+    qDebug()<<div;
+    ui->mWeb->load(QUrl::fromLocalFile(QDir::currentPath() + "/intermediate_data(division " + QString::number(div) + ").html"));
+    qDebug()<<QString(QDir::currentPath() + "/intermediate_data(division " + QString::number(div) + ").html");
+}
+
+void MainWindow::next()
+{
+    if(current_div<4)
+    {
+        display(current_div + 1);
+        current_div++;
+    }
+    else return;
+}
+
+void MainWindow::prev()
+{
+    if(current_div>1)
+    {
+        current_div--;
+        display(current_div);
+
+
+    }
+    else return;
 }
 
 void MainWindow::print()
@@ -251,6 +343,6 @@ void MainWindow::print()
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPageSize(QPrinter::A4);
 
-    mWeb->print(&printer);
+    ui->mWeb->print(&printer);
 
 }

@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>SE-I.html</file>
+        <file>SE-IV.html</file>
     </qresource>
 </RCC>

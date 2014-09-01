@@ -244,7 +244,7 @@ void MainWindow::generate()
 
                     k++;
                 }
-                else
+                else if(i<3)    //Divisions 1-3
                 {
                     if(k<6)
                     {
@@ -253,6 +253,20 @@ void MainWindow::generate()
                         k++;
                     }
                     else if(k==6)
+                    {
+                        QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
+                        mTemplate[str] = html;
+                    }
+                }
+                else        //Special case for division 4
+                {
+                    if(k>0)
+                    {
+                        QString html = QString(se.get_batch_timetable(i*4,j,k).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i*4,j,k+1).c_str());
+                        mTemplate[str] = html;
+                        k++;
+                    }
+                    else if(k==0)
                     {
                         QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
                         mTemplate[str] = html;

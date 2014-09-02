@@ -11,11 +11,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(generate()));
     connect(ui->NextButton, SIGNAL(clicked()), this, SLOT(next()));
     connect(ui->PrevButton, SIGNAL(clicked()), this, SLOT(prev()));
+    connect(ui->PrintButton, SIGNAL(clicked()), this, SLOT(print()));
 
-    connect(ui->mWeb,SIGNAL(loadFinished(bool)),this,SLOT(print()));
+
+    //connect(ui->mWeb,SIGNAL(loadFinished(bool)),this,SLOT(print()));
+
 
     ui->NextButton->hide();
     ui->PrevButton->hide();
+    ui->PrintButton->hide();
+    ui->mWeb->hide();
 }
 
 MainWindow::~MainWindow()
@@ -41,6 +46,8 @@ QString get_batch(int i)
 void MainWindow::generate()
 {
     ui->statusBar->clearMessage();
+    ui->mWeb->show();
+    ui->label_2->hide();
     vector <int> teachers_count[6];
     vector <string> teachers_name[6];
 
@@ -280,6 +287,7 @@ void MainWindow::generate()
     }
     display(1);
     ui->NextButton->show();
+    ui->PrintButton->show();
     ui->PrevButton->show();
 }
 
@@ -295,6 +303,8 @@ void MainWindow::convert(int div)
     mTemplate["b6"] = "Lab 6";*/
     QString html;
     mTemplate["div"] = QString::number(div);
+    mTemplate["year"] = "2014-15";
+    mTemplate["sdate"] = "16-6-14";
     if(div!=4)
         html = mTemplate.expandFile(":/SE-I.html");
     else
@@ -353,10 +363,28 @@ void MainWindow::print()
 {
     QPrinter printer;
     printer.setResolution(QPrinter::HighResolution);
-    printer.setOutputFileName("output.pdf");
-    printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPageSize(QPrinter::A4);
 
-    ui->mWeb->print(&printer);
+    QPrintDialog *dialog = new QPrintDialog(&printer, this);
+    dialog->setWindowTitle(tr("Print Document"));
 
+    if (dialog->exec() != QDialog::Accepted)
+        return;
+    /*QPainter painter;
+    painter.begin(&printer);
+    double xscale = printer.pageRect().width();
+    double yscale = printer.pageRect().height();
+    double scale = qMin(xscale, yscale);
+    painter.translate(printer.paperRect().x() + printer.pageRect().width()/2,
+                       printer.paperRect().y() + printer.pageRect().height()/2);
+    painter.scale(scale, scale);
+    painter.translate(-width()/2, -height()/2);
+
+
+
+    ui->mWeb->render(&painter);
+    painter.end();
+
+    */
+    ui->mWeb->print(&printer);
 }

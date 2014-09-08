@@ -45,9 +45,10 @@ QString get_batch(int i)
 
 void MainWindow::generate()
 {
-    ui->statusBar->clearMessage();
+    ui->statusBar->showMessage("Executing... ");
     ui->mWeb->show();
     ui->label_2->hide();
+
     vector <int> teachers_count[6];
     vector <string> teachers_name[6];
 
@@ -224,7 +225,9 @@ void MainWindow::generate()
     se.add_lab_name(5,"A202");
     se.add_lab_name(5,"A203");
 
+
     qDebug()<<"Executing\n";
+
     se.execute();
 
     if(!se.success()) {
@@ -232,6 +235,8 @@ void MainWindow::generate()
         ui->statusBar->showMessage("An error occured: " + QString(se.get_error_log().c_str()));
         return;
     }
+
+    ui->statusBar->showMessage("Timetable generated.");
     int count = 1;
     for(int i=0;i<4;i++)
     {
@@ -370,21 +375,7 @@ void MainWindow::print()
 
     if (dialog->exec() != QDialog::Accepted)
         return;
-    /*QPainter painter;
-    painter.begin(&printer);
-    double xscale = printer.pageRect().width();
-    double yscale = printer.pageRect().height();
-    double scale = qMin(xscale, yscale);
-    painter.translate(printer.paperRect().x() + printer.pageRect().width()/2,
-                       printer.paperRect().y() + printer.pageRect().height()/2);
-    painter.scale(scale, scale);
-    painter.translate(-width()/2, -height()/2);
 
 
-
-    ui->mWeb->render(&painter);
-    painter.end();
-
-    */
     ui->mWeb->print(&printer);
 }

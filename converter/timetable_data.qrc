@@ -2,7 +2,5 @@
     <qresource prefix="/">
         <file>SE-I.html</file>
         <file>SE-IV.html</file>
-        <file>SE-I (copy).html</file>
-        <file>SE-IV-mod.html</file>
     </qresource>
 </RCC>

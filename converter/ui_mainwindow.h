@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Sep 2 00:29:55 2014
+** Created: Mon Sep 8 14:07:09 2014
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -33,13 +33,15 @@ public:
     QWidget *centralWidget;
     QGridLayout *gridLayout_2;
     QGridLayout *gridLayout;
-    QVBoxLayout *verticalLayout;
-    QLabel *label;
-    QWebView *mWeb;
     QHBoxLayout *horizontalLayout;
     QPushButton *PrevButton;
     QPushButton *pushButton;
     QPushButton *NextButton;
+    QVBoxLayout *verticalLayout;
+    QLabel *label;
+    QLabel *label_2;
+    QWebView *mWeb;
+    QPushButton *PrintButton;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -56,23 +58,6 @@ public:
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setSpacing(6);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        label = new QLabel(centralWidget);
-        label->setObjectName(QString::fromUtf8("label"));
-
-        verticalLayout->addWidget(label);
-
-        mWeb = new QWebView(centralWidget);
-        mWeb->setObjectName(QString::fromUtf8("mWeb"));
-        mWeb->setUrl(QUrl(QString::fromUtf8("about:blank")));
-
-        verticalLayout->addWidget(mWeb);
-
-
-        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
-
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
@@ -92,7 +77,34 @@ public:
         horizontalLayout->addWidget(NextButton);
 
 
-        gridLayout->addLayout(horizontalLayout, 1, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
+
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(6);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        label = new QLabel(centralWidget);
+        label->setObjectName(QString::fromUtf8("label"));
+
+        verticalLayout->addWidget(label);
+
+        label_2 = new QLabel(centralWidget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        verticalLayout->addWidget(label_2);
+
+        mWeb = new QWebView(centralWidget);
+        mWeb->setObjectName(QString::fromUtf8("mWeb"));
+        mWeb->setUrl(QUrl(QString::fromUtf8("about:blank")));
+
+        verticalLayout->addWidget(mWeb);
+
+
+        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
+
+        PrintButton = new QPushButton(centralWidget);
+        PrintButton->setObjectName(QString::fromUtf8("PrintButton"));
+
+        gridLayout->addWidget(PrintButton, 1, 0, 1, 1);
 
 
         gridLayout_2->addLayout(gridLayout, 0, 0, 1, 1);
@@ -110,10 +122,12 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\">TimeTable Generator</p></body></html>", 0, QApplication::UnicodeUTF8));
         PrevButton->setText(QApplication::translate("MainWindow", "Previous", 0, QApplication::UnicodeUTF8));
         pushButton->setText(QApplication::translate("MainWindow", "Generate", 0, QApplication::UnicodeUTF8));
         NextButton->setText(QApplication::translate("MainWindow", "Next", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("MainWindow", "<html><head/><body><p align=\"center\">TimeTable Generator</p></body></html>", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("MainWindow", "                                                                       Click on the Generate button to continue.", 0, QApplication::UnicodeUTF8));
+        PrintButton->setText(QApplication::translate("MainWindow", "Print current page", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

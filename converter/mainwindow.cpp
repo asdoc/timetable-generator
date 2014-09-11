@@ -237,6 +237,10 @@ void MainWindow::generate()
     }
 
     ui->statusBar->showMessage("Timetable generated.");
+
+
+
+    //Set lectures
     int count = 1;
     for(int i=0;i<4;i++)
     {
@@ -287,7 +291,30 @@ void MainWindow::generate()
             }
 
         }
+
+
+
         count = 1;
+        //Set lab teacher names
+        for(int p=0;p<4;p++)
+        {
+            for(int q=1;q<=5;q++)
+            {
+
+                int x = (i*4) + (p);
+                if(x==16)
+                {
+                    x=15;
+                    q=5;
+
+                }
+                QString str = "s" + QString::number(q) + QString::number(p+1);
+                qDebug()<<str;
+                mTemplate[str] = se.get_batch_lab_teacher(x ,q).c_str();
+                //qDebug()<<se.get_batch_lab_teacher(x,p).c_str();
+            }
+        }
+        //Create HTML output
         convert(i+1);
     }
     display(1);

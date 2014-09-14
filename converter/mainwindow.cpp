@@ -244,6 +244,7 @@ void MainWindow::generate()
     int count = 1;
     for(int i=0;i<4;i++)
     {
+        mTemplate.clear();
         for(int j=0;j<6;j++)
         {
             for(int k=0;k<7;k++)
@@ -271,7 +272,7 @@ void MainWindow::generate()
                     else if(k==6)
                     {
                         QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
-                        mTemplate[str] = html;
+                        mTemplate[str] = html == "         " || html == ""?html:html + "*";
                     }
                 }
                 else        //Special case for division 4
@@ -285,7 +286,7 @@ void MainWindow::generate()
                     else if(k==0)
                     {
                         QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
-                        mTemplate[str] = html;
+                        mTemplate[str] = html == "         " || html == ""?html:html + "*";
                     }
                 }
             }
@@ -295,6 +296,10 @@ void MainWindow::generate()
 
 
         count = 1;
+        //Set class room
+        if(i<3)
+            mTemplate["cl_room"] = se.get_class_room(i,1,1).c_str();
+
         //Set lab teacher names
         for(int p=0;p<4;p++)
         {
@@ -314,6 +319,14 @@ void MainWindow::generate()
                 //qDebug()<<se.get_batch_lab_teacher(x,p).c_str();
             }
         }
+
+        //Set lecture subject teacher names
+        for(int p=6;p<15;p++)
+        {
+            QString str = "t" + QString::number(p-5);
+            mTemplate[str] = se.get_class_lec_teacher(i,p).c_str();
+        }
+
         //Create HTML output
         convert(i+1);
     }
@@ -327,12 +340,6 @@ void MainWindow::convert(int div)
 {
 
 
-    /*mTemplate["b1"] =  "Lab 1 <br><br><hr/> Lab lol";
-    mTemplate["b2"] = "Lab 2";
-    mTemplate["b3"] = "Lab 3";
-    mTemplate["b4"] = "Lab 4";
-    mTemplate["b5"] = "Lab 5";
-    mTemplate["b6"] = "Lab 6";*/
     QString html;
     mTemplate["div"] = QString::number(div);
     mTemplate["year"] = "2014-15";
@@ -345,18 +352,6 @@ void MainWindow::convert(int div)
     QTextDocumentWriter writer("intermediate_data(division " + QString::number(div) + ").html");
     writer.setFormat("plaintext");
     writer.write(&document);
-
-    /*QFile file("intermediate_data.html");
-    if ( !file.open( QIODevice::ReadWrite ) )
-    {
-        qWarning() << "Could not find file" << "intermediate_data.html";
-        return;
-    }
-
-    file.seek(0);
-    file.write(document.toHtml());
-    file.close();*/
-    //QMessageBox::information(0,"lol",document.toHtml());
 
 
 

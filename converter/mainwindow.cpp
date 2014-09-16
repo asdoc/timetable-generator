@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->setToolTip("Press the button to convert");
 
     //thread = new QThread(this);
-    progress = new QProgressDialog("Generating timetable...", "", 0, 0, 0);
+    progress = new QProgressDialog("Generating timetable...", "", 0, 0, this);
+    progress->setModal(true);
     progress->setCancelButton(0);
     //progress->moveToThread(thread);
 
@@ -80,6 +81,7 @@ bool MainWindow::execute()
     ui->statusBar->showMessage("Executing... ");
     ui->mWeb->show();
     ui->label_2->hide();
+    mTemplate.clear();
 
     QApplication::processEvents();
     vector <int> teachers_count[6];
@@ -284,47 +286,74 @@ bool MainWindow::execute()
             for(int k=0;k<7;k++)
             {
                 QString str = "b" + QString::number(count++);
-                if(se.is_lab(i*4,j,k))
+
+                //Divisions 1-3
+                if(i<3)
                 {
-                    mTemplate[str] = "";
-                    for(int p=0;p<4;p++)
+                    if(i==0&&j==5&&k==6)
                     {
-                        mTemplate[str] += QString(se.get_batch_timetable(i*4 + p,j,k).c_str() + get_batch(i*4 + p) + QString("<br>") );
+                        qDebug()<<"lol";
+                        //lol
+
 
                     }
+                    if(se.is_lab(i*4,j,k))
+                    {
+                        mTemplate[str] = "";
+                        for(int p=0;p<4;p++)
+                        {
+                            mTemplate[str] += QString(se.get_batch_timetable(i*4 + p,j,k).c_str() + get_batch(i*4 + p) + QString("<br>") );
 
-                    k++;
-                }
-                else if(i<3)    //Divisions 1-3
-                {
-                    if(k<6)
-                    {
-                        QString html = QString(se.get_batch_timetable(i*4,j,k).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i*4,j,k+1).c_str());
-                        mTemplate[str] = html;
+                        }
+
                         k++;
                     }
-                    else if(k==6)
+                    else
                     {
-                        QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
-                        mTemplate[str] = html == "         " || html == ""?html:html + "*";
+                        if(k<6)
+                        {
+                            QString html = QString(se.get_batch_timetable(i*4,j,k).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i*4,j,k+1).c_str());
+                            mTemplate[str] = html;
+                            k++;
+                        }
+                        else if(k==6)
+                        {
+                            QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
+                            mTemplate[str] = html == "         " || html == ""?html:html + "*";
+
+                        }
                     }
                 }
-                else        //Special case for division 4
+                else       //Special case for division 4
                 {
-                    if(k>0)
+                    if(se.is_lab(i*4,j,k))
                     {
-                        QString html = QString(se.get_batch_timetable(i*4,j,k).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i*4,j,k+1).c_str());
-                        mTemplate[str] = html;
+                        mTemplate[str] = "";
+                        for(int p=0;p<4;p++)
+                        {
+                            mTemplate[str] += QString(se.get_batch_timetable(i*4 + p,j,k).c_str() + get_batch(i*4 + p) + QString("<br>") );
+
+                        }
+
                         k++;
                     }
-                    else if(k==0)
+                    else
                     {
-                        QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
-                        mTemplate[str] = html == "         " || html == ""?html:html + "*";
+
+                        if(k>0)
+                        {
+                            QString html = QString(se.get_batch_timetable(i*4,j,k).c_str()) + QString("<br><br><hr/>") + QString(se.get_batch_timetable(i*4,j,k+1).c_str());
+                            mTemplate[str] = html;
+                            k++;
+                        }
+                        else if(k==0)
+                        {
+                            QString html = QString(se.get_batch_timetable(i*4,j,k).c_str());
+                            mTemplate[str] = html == "         " || html == ""?html:html + "*";
+                        }
                     }
                 }
             }
-
         }
 
 
@@ -364,7 +393,7 @@ bool MainWindow::execute()
         //Create HTML output
         convert(i+1);
     }
-    display(1);
+    display(current_div);
     ui->NextButton->show();
     ui->PrintButton->show();
     ui->PrevButton->show();

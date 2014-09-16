@@ -27,10 +27,14 @@ public:
 private:
     Ui::MainWindow *ui;
     QCTemplate mTemplate;
+    QThread *thread;
+    QProgressDialog *progress;
     int current_div;
     void display(int);
+    bool execute();
 public slots:
     void convert(int div);
+    void start_timer();
     void generate();
     void print();
     void next();

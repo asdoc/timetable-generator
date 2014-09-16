@@ -7,11 +7,25 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->statusBar->setToolTip("Press the button to convert");
+
+    //thread = new QThread(this);
+    progress = new QProgressDialog("Generating timetable...", "", 0, 0, 0);
+    progress->setCancelButton(0);
+    //progress->moveToThread(thread);
+
     current_div = 1;
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(generate()));
     connect(ui->NextButton, SIGNAL(clicked()), this, SLOT(next()));
     connect(ui->PrevButton, SIGNAL(clicked()), this, SLOT(prev()));
     connect(ui->PrintButton, SIGNAL(clicked()), this, SLOT(print()));
+    //connect(thread, SIGNAL(started()), this, SLOT(start_timer()));
+   // connect(thread, SIGNAL(finished()), progress, SLOT(cancel()));
+
+
+
+
+
+
 
 
     //connect(ui->mWeb,SIGNAL(loadFinished(bool)),this,SLOT(print()));
@@ -43,12 +57,31 @@ QString get_batch(int i)
     };
 }
 
+
+void MainWindow::start_timer()
+{
+    progress->show();
+}
+
 void MainWindow::generate()
+{
+
+    //thread->start();
+    progress->show();
+    QApplication::processEvents();
+
+    while(!execute());
+    progress->cancel();
+    //thread->terminate();
+}
+
+bool MainWindow::execute()
 {
     ui->statusBar->showMessage("Executing... ");
     ui->mWeb->show();
     ui->label_2->hide();
 
+    QApplication::processEvents();
     vector <int> teachers_count[6];
     vector <string> teachers_name[6];
 
@@ -116,7 +149,7 @@ void MainWindow::generate()
     for(int i=1;i<6;i++) {
         if(!se.set_teachers_lab(i,teachers_count[i],teachers_name[i])) {
             qDebug()<<"Unknown error\n";
-            return;
+            return false;
         }
     }
 
@@ -228,12 +261,13 @@ void MainWindow::generate()
 
     qDebug()<<"Executing\n";
 
+
+
     se.execute();
 
     if(!se.success()) {
         qDebug()<<"An error occured: \n"<<se.get_error_log().c_str();
-        ui->statusBar->showMessage("An error occured: " + QString(se.get_error_log().c_str()));
-        return;
+        return false;
     }
 
     ui->statusBar->showMessage("Timetable generated.");
@@ -334,6 +368,8 @@ void MainWindow::generate()
     ui->NextButton->show();
     ui->PrintButton->show();
     ui->PrevButton->show();
+
+    return true;
 }
 
 void MainWindow::convert(int div)

@@ -5,7 +5,7 @@
 * In converter/qctemplate/src/ctemplate-2.2 , execute:
         - ```./configure && make && make install```          (as root)
 
-###Run the timetable generator library:
+###Run the timetable generator library from terminal:
 * Compile:
     - make
 * Run:

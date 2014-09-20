@@ -1,0 +1,53 @@
+CREATE TABLE Year (
+  year_id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE Department (
+  department_id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE Semester (
+  semester_id INTEGER PRIMARY KEY,
+  year_id INTEGER,
+  name INTEGER,
+  department_id INTEGER,
+  FOREIGN KEY(year_id) REFERENCES Year(year_id),
+  FOREIGN KEY(department_id) REFERENCES Department(department_id)
+);
+
+CREATE TABLE Teacher (
+  teacher_id INTEGER PRIMARY KEY,
+  department_id INTEGER,
+  name TEXT,
+  FOREIGN KEY(department_id) REFERENCES Department(department_id)
+);
+
+CREATE TABLE Subject (
+  subject_id INTEGER PRIMARY KEY,
+  semester_id INTEGER,
+  name TEXT,
+  is_practical INTEGER,
+  FOREIGN KEY(semester_id) REFERENCES Semester(semester_id)
+);
+
+CREATE TABLE Class (
+  class_id INTEGER PRIMARY KEY,
+  year_id INTEGER,
+  department_id INTEGER,
+  name TEXT,
+  FOREIGN KEY(year_id) REFERENCES Year(year_id),
+  FOREIGN KEY(department_id) REFERENCES Department(department_id)
+);
+
+CREATE TABLE Assignment (
+  assignment_id INTEGER PRIMARY KEY,
+  teacher_id INTEGER,
+  subject_id INTEGER,
+  load INTEGER,
+  FOREIGN KEY(teacher_id) REFERENCES Teacher(teacher_id),
+  FOREIGN KEY(subject_id) REFERENCES Subject(subject_id)
+);
+
+

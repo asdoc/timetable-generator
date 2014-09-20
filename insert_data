@@ -1,0 +1,128 @@
+insert into Year values (NULL,'FE');
+insert into Year values (NULL,'SE');
+insert into Year values (NULL,'TE');
+insert into Year values (NULL,'BE');
+
+insert into Department values (NULL,'Applied Science');
+insert into Department values (NULL,'Comp');
+insert into Department values (NULL,'ENTC');
+insert into Department values (NULL,'IT');
+
+insert into Semester values (NULL,2,1,2);
+
+insert into class values (NULL, 2, 2, 'SE1');
+insert into class values (NULL, 2, 2, 'SE2');
+insert into class values (NULL, 2, 2, 'SE3');
+insert into class values (NULL, 2, 2, 'SE4');
+
+insert into subject values (NULL, 1, 'DSPSL', 1);
+insert into subject values (NULL, 1, 'DEL', 1);
+insert into subject values (NULL, 1, 'OSAL', 1);
+insert into subject values (NULL, 1, 'SSL', 1);
+insert into subject values (NULL, 1, 'MPAL', 1);
+insert into subject values (NULL, 1, 'DS', 0);
+insert into subject values (NULL, 1, 'DSPS', 0);
+insert into subject values (NULL, 1, 'MPA', 0);
+insert into subject values (NULL, 1, 'OSA', 0);
+insert into subject values (NULL, 1, 'DELD', 0);
+insert into subject values (NULL, 1, 'SS', 0);
+insert into subject values (NULL, 1, 'DSPS PRL', 0);
+insert into subject values (NULL, 1, 'OSA PRL', 0);
+insert into subject values (NULL, 1, 'MPA PRL', 0);
+
+insert into teacher values (NULL,2,'pvh');
+insert into teacher values (NULL,2,'ajj');
+insert into teacher values (NULL,2,'n2');
+insert into teacher values (NULL,2,'bdz');
+insert into teacher values (NULL,2,'gvk');
+insert into teacher values (NULL,2,'ard');
+insert into teacher values (NULL,2,'kcw');
+insert into teacher values (NULL,2,'pp');
+insert into teacher values (NULL,2,'dms');
+insert into teacher values (NULL,2,'ad');
+insert into teacher values (NULL,2,'new');
+insert into teacher values (NULL,2,'pvj');
+insert into teacher values (NULL,2,'vvb');
+insert into teacher values (NULL,2,'rak');
+insert into teacher values (NULL,2,'ars');
+insert into teacher values (NULL,2,'pht');
+insert into teacher values (NULL,2,'pc');
+insert into teacher values (NULL,2,'new3');
+insert into teacher values (NULL,2,'ppj');
+insert into teacher values (NULL,2,'ps');
+insert into teacher values (NULL,2,'ddk');
+insert into teacher values (NULL,2,'rvb');
+insert into teacher values (NULL,2,'sng');
+insert into teacher values (NULL,2,'ssh');
+insert into teacher values (NULL,2,'sss');
+insert into teacher values (NULL,2,'smg');
+insert into teacher values (NULL,2,'new7');
+insert into teacher values (NULL,2,'pvg');
+
+
+
+insert into assignment values (NULL,1,1,3);
+insert into assignment values (NULL,2,1,3);
+insert into assignment values (NULL,3,1,3);
+insert into assignment values (NULL,4,1,3);
+insert into assignment values (NULL,5,1,2);
+insert into assignment values (NULL,6,1,1);
+insert into assignment values (NULL,7,1,1);
+
+insert into assignment values (NULL,8,2,6);
+insert into assignment values (NULL,9,2,5);
+insert into assignment values (NULL,10,2,3);
+insert into assignment values (NULL,11,2,2);
+
+insert into assignment values (NULL,12,3,6);
+insert into assignment values (NULL,13,3,4);
+insert into assignment values (NULL,14,3,3);
+insert into assignment values (NULL,15,3,3);
+
+insert into assignment values (NULL,16,4,6);
+insert into assignment values (NULL,17,4,3);
+insert into assignment values (NULL,18,4,3);
+insert into assignment values (NULL,19,4,2);
+insert into assignment values (NULL,20,4,2);
+
+insert into assignment values (NULL,21,5,6);
+insert into assignment values (NULL,22,5,4);
+insert into assignment values (NULL,23,5,4);
+insert into assignment values (NULL,24,5,2);
+
+insert into assignment values (NULL,25,6,1);
+insert into assignment values (NULL,26,6,1);
+insert into assignment values (NULL,5,6,1);
+insert into assignment values (NULL,4,6,1);
+
+insert into assignment values (NULL,2,7,2);
+insert into assignment values (NULL,6,7,1);
+insert into assignment values (NULL,7,7,1);
+
+insert into assignment values (NULL,23,8,2);
+insert into assignment values (NULL,21,8,1);
+insert into assignment values (NULL,24,8,1);
+
+insert into assignment values (NULL,14,9,2);
+insert into assignment values (NULL,15,9,1);
+insert into assignment values (NULL,13,9,1);
+
+insert into assignment values (NULL,9,10,2);
+insert into assignment values (NULL,8,10,2);
+
+insert into assignment values (NULL,19,11,4);
+
+insert into assignment values (NULL,2,12,1);
+insert into assignment values (NULL,1,12,1);
+insert into assignment values (NULL,27,12,1);
+insert into assignment values (NULL,4,12,1);
+
+insert into assignment values (NULL,13,13,1);
+insert into assignment values (NULL,15,13,1);
+insert into assignment values (NULL,12,13,1);
+insert into assignment values (NULL,14,13,1);
+
+insert into assignment values (NULL,23,14,2);
+insert into assignment values (NULL,15,14,1);
+insert into assignment values (NULL,22,14,1);
+

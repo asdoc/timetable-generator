@@ -24,12 +24,18 @@ linux-g++ {
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    ../timetable.cpp
+    ../timetable.cpp \
+    timetableform.cpp \
+    teacherdialog.cpp
 
 HEADERS  += mainwindow.h \
-    ../timetable.h
+    ../timetable.h \
+    timetableform.h \
+    teacherdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    timetableform.ui \
+    teacherdialog.ui
 
 RESOURCES += \
     timetable_data.qrc

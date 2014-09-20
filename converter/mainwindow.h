@@ -8,9 +8,10 @@
 #include <QCTemplate.h>
 #include <vector>
 #include "../timetable.h"
+#include "timetableform.h"
 
 using namespace std;
-
+class TimeTableForm;
 
 namespace Ui {
 class MainWindow;
@@ -28,9 +29,13 @@ private:
     Ui::MainWindow *ui;
     QCTemplate mTemplate;
     QProgressDialog *progress;
+    TimeTableForm *mTimeTableForm;
     int current_div;
     void display(int);
     bool execute();
+
+    QAction *exitAction;
+    QAction *aboutAction;
 public slots:
     void convert(int div);
     void start_timer();
@@ -38,6 +43,7 @@ public slots:
     void print();
     void next();
     void prev();
+    void menubar(QAction *);
 };
 
 #endif // MAINWINDOW_H

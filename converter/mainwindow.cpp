@@ -380,6 +380,8 @@ bool MainWindow::execute()
                 qDebug()<<str;
                 mTemplate[str] = se.get_batch_lab_teacher(x ,q).c_str();
                 //qDebug()<<se.get_batch_lab_teacher(x,p).c_str();
+                str = "l" + QString::number(q) + QString::number(p+1);
+                mTemplate[str] = se.get_batch_lab_name(x,q).c_str();
             }
         }
 

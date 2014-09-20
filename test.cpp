@@ -46,94 +46,35 @@ int main() {
 	vector <int> t1;
 	vector <string> t2;
 
-	t1.push_back(1);
-	t1.push_back(1);
-	t1.push_back(1);
-	t1.push_back(1);
-	t2.push_back("sss");
-	t2.push_back("smg");
-	t2.push_back("gvk");
-	t2.push_back("bdz");
-	se.set_teachers_lec(6,t1,t2);
+
+	for(int i=6;i<=14;i++) {
+		t1.clear();
+		t2.clear();
+		sqlite3 *db;
+		sqlite3_stmt * stmt;
+		if (sqlite3_open("timetable.db", &db) == SQLITE_OK) {
+			char i_buf[1024];
+			sprintf(i_buf,"%d",i);
+			string i_str(i_buf);
+			string select_stmt = "select a.name,b.load from assignment b inner join teacher a on a.teacher_id=b.teacher_id where subject_id="+i_str+";";
+			sqlite3_prepare( db, &select_stmt[0] , -1, &stmt, NULL );
+			sqlite3_step( stmt );
+			while( sqlite3_column_text( stmt, 0 ) ) {
+				string t_name = string( (char *)sqlite3_column_text( stmt, 0 ));
+				int t_count = atoi((char*)sqlite3_column_text( stmt, 1 ));
+				t2.push_back(t_name);
+				t1.push_back( t_count );
+				se.set_teachers_lec(i,t1,t2);
+				sqlite3_step( stmt );
+			}
+		} else {
+			cout << "Failed to open db\n";
+		}
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+		
+	}
 	
-	t1.clear();
-	t2.clear();
-	t1.push_back(2);
-	t1.push_back(1);
-	t1.push_back(1);
-	t2.push_back("ard");
-	t2.push_back("ajj");
-	t2.push_back("kcw");
-	se.set_teachers_lec(7,t1,t2);
-	
-	t1.clear();
-	t2.clear();
-	t1.push_back(2);
-	t1.push_back(1);
-	t1.push_back(1);
-	t2.push_back("sng");
-	t2.push_back("ddk");
-	t2.push_back("ssh");
-	se.set_teachers_lec(8,t1,t2);
-
-	t1.clear();
-	t2.clear();
-	t1.push_back(2);
-	t1.push_back(1);
-	t1.push_back(1);
-	t2.push_back("rak");
-	t2.push_back("ars");
-	t2.push_back("vvb");
-	se.set_teachers_lec(9,t1,t2);
-
-	t1.clear();
-	t2.clear();
-	t1.push_back(2);
-	t1.push_back(2);
-	t2.push_back("dms");
-	t2.push_back("pp");
-	se.set_teachers_lec(10,t1,t2);
-
-	t1.clear();
-	t2.clear();
-	t1.push_back(4);
-	t2.push_back("ppj");
-	se.set_teachers_lec(11,t1,t2);
-
-	t1.clear();
-	t2.clear();
-	t1.push_back(1);
-	t1.push_back(1);
-	t1.push_back(1);
-	t1.push_back(1);
-	t2.push_back("ajj");
-	t2.push_back("pvh");
-	t2.push_back("new7");
-	t2.push_back("bdz");
-	se.set_teachers_lec(12,t1,t2);
-
-	t1.clear();
-	t2.clear();
-	t1.push_back(1);
-	t1.push_back(1);
-	t1.push_back(1);
-	t1.push_back(1);
-	t2.push_back("vvb");
-	t2.push_back("ars");
-	t2.push_back("pvj");
-	t2.push_back("rak");
-	se.set_teachers_lec(13,t1,t2);
-
-	t1.clear();
-	t2.clear();
-	t1.push_back(2);
-	t1.push_back(1);
-	t1.push_back(1);
-	t2.push_back("sng");
-	t2.push_back("ars");
-	t2.push_back("rvb");
-	se.set_teachers_lec(14,t1,t2);
-
 	se.add_lab_name(1,"A208");
 	se.add_lab_name(1,"A209");
 	

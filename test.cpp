@@ -2,73 +2,40 @@
 #include <string>
 #include "timetable.h"
 #include <vector>
+#include <sqlite3.h>
+#include <stdio.h>
 using namespace std;
 
 int main() {
 	vector <int> teachers_count[6];
 	vector <string> teachers_name[6];
 	
-	teachers_count[1].push_back(3);
-	teachers_count[1].push_back(3);
-	teachers_count[1].push_back(3);
-	teachers_count[1].push_back(3);
-	teachers_count[1].push_back(2);
-	teachers_count[1].push_back(1);
-	teachers_count[1].push_back(1);
 	
-	teachers_count[2].push_back(6);
-	teachers_count[2].push_back(5);
-	teachers_count[2].push_back(3);
-	teachers_count[2].push_back(2);
-	
-	teachers_count[3].push_back(6);
-	teachers_count[3].push_back(4);
-	teachers_count[3].push_back(3);
-	teachers_count[3].push_back(3);
-	
-	teachers_count[4].push_back(6);
-	teachers_count[4].push_back(3);
-	teachers_count[4].push_back(3);
-	teachers_count[4].push_back(2);
-	teachers_count[4].push_back(2);
-	
-	teachers_count[5].push_back(6);
-	teachers_count[5].push_back(4);
-	teachers_count[5].push_back(4);
-	teachers_count[5].push_back(2);
-	
-	teachers_name[1].push_back("pvh");
-	teachers_name[1].push_back("ajj");
-	teachers_name[1].push_back("n2");
-	teachers_name[1].push_back("bdz");
-	teachers_name[1].push_back("gvk");
-	teachers_name[1].push_back("ard");
-	teachers_name[1].push_back("kcw");
-	
-	teachers_name[2].push_back("pp");
-	teachers_name[2].push_back("dms");
-	teachers_name[2].push_back("ad");
-	teachers_name[2].push_back("new");
-	
-	teachers_name[3].push_back("pvj");
-	teachers_name[3].push_back("vvb");
-	teachers_name[3].push_back("rak");
-	teachers_name[3].push_back("ars");
-	
-	teachers_name[4].push_back("pht");
-	teachers_name[4].push_back("pc");
-	teachers_name[4].push_back("new3");
-	teachers_name[4].push_back("ppj");
-	teachers_name[4].push_back("ps");
-	
-	teachers_name[5].push_back("ddk");
-	teachers_name[5].push_back("rvb");
-	teachers_name[5].push_back("sng");
-	teachers_name[5].push_back("ssh");
-	
+	for(int i=1;i<=5;i++) {
+		sqlite3 *db;
+		sqlite3_stmt * stmt;
+		if (sqlite3_open("timetable.db", &db) == SQLITE_OK) {
+			char i_buf[1024];
+			sprintf(i_buf,"%d",i);
+			string i_str(i_buf);
+			string select_stmt = "select a.name,b.load from assignment b inner join teacher a on a.teacher_id=b.teacher_id where subject_id="+i_str+";";
+			sqlite3_prepare( db, &select_stmt[0] , -1, &stmt, NULL );
+			sqlite3_step( stmt );
+			while( sqlite3_column_text( stmt, 0 ) ) {
+				string t_name = string( (char *)sqlite3_column_text( stmt, 0 ));
+				int t_count = atoi((char*)sqlite3_column_text( stmt, 1 ));
+				teachers_name[i].push_back(t_name);
+				teachers_count[i].push_back( t_count );
+				sqlite3_step( stmt );
+			}
+		} else {
+			cout << "Failed to open db\n";
+		}
+		sqlite3_finalize(stmt);
+		sqlite3_close(db);
+	}
 	timetable se;
 	cout<<"Setting variables\n";
-	
 	for(int i=1;i<6;i++) {
 		if(!se.set_teachers_lab(i,teachers_count[i],teachers_name[i])) {
 			cout<<"Unknown error\n";

@@ -8,19 +8,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->statusBar->setToolTip("Press the button to convert");
 
-    //thread = new QThread(this);
     progress = new QProgressDialog("Generating timetable...", "", 0, 0, this);
     progress->setModal(true);
     progress->setCancelButton(0);
-    //progress->moveToThread(thread);
 
     current_div = 1;
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(generate()));
     connect(ui->NextButton, SIGNAL(clicked()), this, SLOT(next()));
     connect(ui->PrevButton, SIGNAL(clicked()), this, SLOT(prev()));
     connect(ui->PrintButton, SIGNAL(clicked()), this, SLOT(print()));
-    //connect(thread, SIGNAL(started()), this, SLOT(start_timer()));
-   // connect(thread, SIGNAL(finished()), progress, SLOT(cancel()));
 
 
 

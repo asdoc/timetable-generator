@@ -27,7 +27,6 @@ public:
 private:
     Ui::MainWindow *ui;
     QCTemplate mTemplate;
-    QThread *thread;
     QProgressDialog *progress;
     int current_div;
     void display(int);

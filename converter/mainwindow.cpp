@@ -8,19 +8,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->statusBar->setToolTip("Press the button to convert");
 
-    //thread = new QThread(this);
     progress = new QProgressDialog("Generating timetable...", "", 0, 0, this);
     progress->setModal(true);
     progress->setCancelButton(0);
-    //progress->moveToThread(thread);
 
     current_div = 1;
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(generate()));
     connect(ui->NextButton, SIGNAL(clicked()), this, SLOT(next()));
     connect(ui->PrevButton, SIGNAL(clicked()), this, SLOT(prev()));
     connect(ui->PrintButton, SIGNAL(clicked()), this, SLOT(print()));
-    //connect(thread, SIGNAL(started()), this, SLOT(start_timer()));
-   // connect(thread, SIGNAL(finished()), progress, SLOT(cancel()));
+    connect(ui->ExitButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->menuBar, SIGNAL(triggered(QAction*)), this, SLOT(menubar(QAction*)));
+
 
 
 
@@ -35,12 +34,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->NextButton->hide();
     ui->PrevButton->hide();
     ui->PrintButton->hide();
+    ui->ExitButton->hide();
     ui->mWeb->hide();
+
 }
 
 MainWindow::~MainWindow()
 {
+    delete progress;
     delete ui;
+}
+
+void MainWindow::menubar(QAction *action)
+{
+    if(action->text() == "Exit") this->close();
+    else if(action->text() == "About")
+    {
+        QMessageBox::about(this,"Time Table Generator", "Timetable generator program\nMade in QT 4.8\nCredits:\n1. Aditya Sarode\n2. Aaryaman Vasishta\n3. Akhil Kaul");
+    }
 }
 
 QString get_batch(int i)
@@ -399,6 +410,7 @@ bool MainWindow::execute()
     ui->NextButton->show();
     ui->PrintButton->show();
     ui->PrevButton->show();
+    ui->ExitButton->show();
 
     return true;
 }

@@ -1,10 +1,11 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
+#include "timetableform.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    TimeTableForm w;
     w.setWindowTitle("Time Table generator");
     w.show();
     

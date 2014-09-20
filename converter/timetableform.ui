@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TimeTableForm</class>
+ <widget class="QMainWindow" name="TimeTableForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="ExitButton">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>510</y>
+      <width>98</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exit Program</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="AddTeacherButton">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>130</y>
+      <width>161</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edit/Add teachers</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="LoadButton">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>170</y>
+      <width>211</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load generator</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

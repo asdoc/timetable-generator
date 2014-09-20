@@ -3,7 +3,7 @@ a.out
 *~
 converter/intermediate_data*
 converter/qctemplate
-converter/moc_mainwindow.cpp
+converter/moc_*
 converter/qrc_timetable_data.cpp
 generate
 

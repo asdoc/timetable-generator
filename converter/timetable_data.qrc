@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>SE-I.html</file>
         <file>SE-IV.html</file>
+        <file>logo.png</file>
     </qresource>
 </RCC>

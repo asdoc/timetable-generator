@@ -27,31 +27,44 @@
      <string>Exit Program</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="AddTeacherButton">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>130</y>
-      <width>161</width>
-      <height>27</height>
+      <x>160</x>
+      <y>10</y>
+      <width>471</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="text">
-     <string>Edit/Add teachers</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/logo.png&quot;/&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;TIMETABLE GENERATOR&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="LoadButton">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>170</y>
-      <width>211</width>
-      <height>27</height>
+      <x>220</x>
+      <y>140</y>
+      <width>341</width>
+      <height>291</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Load generator</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="AddTeacherButton">
+       <property name="text">
+        <string>Edit/Add teachers</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="LoadButton">
+       <property name="text">
+        <string>Load generator</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

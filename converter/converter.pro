@@ -16,7 +16,7 @@ INCLUDEPATH += qctemplate/src/
 DEPENDPATH += qctemplate/src/
 
 linux-g++ {
-    LIBS += -lqctemplate
+    LIBS += -lqctemplate -lsqlite3
     QMAKE_LIBDIR += qctemplate/src/
 }
 

@@ -7,6 +7,8 @@
 #include <QUrl>
 #include <QCTemplate.h>
 #include <vector>
+#include <sqlite3.h>
+#include <stdio.h>
 #include "../timetable.h"
 #include "timetableform.h"
 

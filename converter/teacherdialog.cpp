@@ -106,7 +106,7 @@ void TeacherDialog::add_new_teacher()
 {
     QString name = ui->name_input->text();
     int branch = ui->branch_combo->currentIndex();
-    if(branch==0) return;
+    if(branch==0 || ui->name_input->text().isEmpty()) return;
 
     db.exec("insert into teacher values(NULL, " + QString::number(branch) + ", '" + name + "')");
     teacher_model->select();
@@ -119,7 +119,7 @@ void TeacherDialog::add_new_load()
 {
     int row = ui->tableView_2->model()->rowCount();
     ui->tableView_2->model()->insertRow(row);
-
+    ui->tableView_2->scrollToBottom();
 }
 
 void TeacherDialog::filter(QString pat)

@@ -32,7 +32,8 @@ private slots:
     void button_clicked(QAbstractButton *);
     void load_teachers();
     void load_teacher_assignment();
-    void delete_row();
+    void delete_teacher();
+    void delete_load();
     void filter(QString);
 };
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
-    <height>600</height>
+    <width>737</width>
+    <height>771</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,29 +19,29 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Filter:</string>
+        <string>Filter teacher/load:</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="filter_lbl">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="placeholderText">
-        <string>Search by name...</string>
+        <string>Search by teacher name...</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item alignment="Qt::AlignHCenter">
+   <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>List of teachers</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;List of teachers&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
@@ -58,7 +58,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QPushButton" name="delete_button">
+      <widget class="QPushButton" name="delete_teacher_button">
        <property name="text">
         <string>Delete Selected Teacher</string>
        </property>
@@ -125,6 +125,13 @@
       </widget>
      </item>
      <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Teacher assignment list&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -142,6 +149,13 @@
       <widget class="QPushButton" name="add_load_button">
        <property name="text">
         <string>Add Load</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="delete_load_button">
+       <property name="text">
+        <string>Delete Selected Load</string>
        </property>
       </widget>
      </item>

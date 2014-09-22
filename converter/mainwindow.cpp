@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->NextButton, SIGNAL(clicked()), this, SLOT(next()));
     connect(ui->PrevButton, SIGNAL(clicked()), this, SLOT(prev()));
     connect(ui->PrintButton, SIGNAL(clicked()), this, SLOT(print()));
-    connect(ui->ExitButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(ui->menuBar, SIGNAL(triggered(QAction*)), this, SLOT(menubar(QAction*)));
 
 
@@ -33,8 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->NextButton->hide();
     ui->PrevButton->hide();
-    ui->PrintButton->hide();
-    ui->ExitButton->hide();
+    ui->PrintButton->hide();;
     ui->mWeb->hide();
 
 }
@@ -646,7 +644,6 @@ bool MainWindow::execute()
     ui->NextButton->show();
     ui->PrintButton->show();
     ui->PrevButton->show();
-    ui->ExitButton->show();
 
     return true;
 }

@@ -6,6 +6,7 @@ TeacherDialog::TeacherDialog(QWidget *parent) : QDialog(parent),
     db(QSqlDatabase::addDatabase("QSQLITE"))
 {
     ui->setupUi(this);
+    this->setWindowTitle("Add/Edit teacher");
     this->setFixedSize(this->width(), this->height());
     ui->tableView->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -27,7 +28,8 @@ TeacherDialog::TeacherDialog(QWidget *parent) : QDialog(parent),
     load_teacher_assignment();
     connect(ui->add_button, SIGNAL(clicked()), this, SLOT(add_new_teacher()));
     connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(button_clicked(QAbstractButton*)));
-    connect(ui->delete_button, SIGNAL(clicked()), this, SLOT(delete_row()));
+    connect(ui->delete_teacher_button, SIGNAL(clicked()), this, SLOT(delete_teacher()));
+    connect(ui->delete_load_button, SIGNAL(clicked()), this, SLOT(delete_load()));
     connect(ui->add_load_button, SIGNAL(clicked()), this, SLOT(add_new_load()));
     connect(ui->filter_lbl, SIGNAL(textChanged(QString)), this, SLOT(filter(QString)));
 }
@@ -85,7 +87,7 @@ void TeacherDialog::button_clicked(QAbstractButton *button)
     }
 }
 
-void TeacherDialog::delete_row()
+void TeacherDialog::delete_teacher()
 {
     int row_number = ui->tableView->currentIndex().row();
     ui->tableView->model()->removeRow(row_number);
@@ -101,6 +103,12 @@ void TeacherDialog::delete_row()
     }
 }
 
+void TeacherDialog::delete_load()
+{
+    int row_number = ui->tableView_2->currentIndex().row();
+    ui->tableView_2->model()->removeRow(row_number);
+}
+
 
 void TeacherDialog::add_new_teacher()
 {
@@ -111,7 +119,6 @@ void TeacherDialog::add_new_teacher()
     db.exec("insert into teacher values(NULL, " + QString::number(branch) + ", '" + name + "')");
     teacher_model->select();
     qDebug()<< db.lastError();
-    db.exec("insert into assignment values(NULL, " + QString::number(ui->tableView->model()->rowCount()) + ", 1, 1)");
 }
 
 

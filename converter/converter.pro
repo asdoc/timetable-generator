@@ -20,6 +20,17 @@ linux-g++ {
     QMAKE_LIBDIR += qctemplate/src/
 }
 
+win32 {
+    LIBS += qctemplate.lib
+
+    CONFIG(debug, debug|release) {
+        QMAKE_LIBDIR += qctemplate/src/debug
+    }
+    CONFIG(release, debug|release) {
+        QMAKE_LIBDIR += qctemplate/src/release
+    }
+}
+
 
 
 SOURCES += main.cpp\

@@ -48,7 +48,7 @@ void MainWindow::menubar(QAction *action)
     if(action->text() == "Exit") this->close();
     else if(action->text() == "About")
     {
-        QMessageBox::about(this,"Time Table Generator", "Timetable generator program\nMade in QT 4.8\nCredits:\n1. Aditya Sarode\n2. Aaryaman Vasishta\n3. Akhil Kaul");
+        QMessageBox::about(this,"Time Table Generator", "Timetable generator program\nCredits:\n1. Aditya Sarode\n2. Aaryaman Vasishta\n3. Akhil Koul");
     }
 }
 

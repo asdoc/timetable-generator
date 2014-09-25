@@ -131,15 +131,6 @@ void TeacherDialog::add_new_load()
 
 void TeacherDialog::filter(QString pat)
 {
-    QString pattern = "*" + pat + "*";
-    proxy->setSourceModel(teacher_model);
-    proxy->setFilterKeyColumn(2);
-    proxy->setFilterWildcard(pattern);
-    ui->tableView->setModel(proxy);
-
-    load_proxy->setSourceModel(assignment_model);
-    load_proxy->setFilterKeyColumn(1);
-    load_proxy->setFilterWildcard(pattern);
-    ui->tableView_2->setModel(load_proxy);
-
+    teacher_model->setFilter("teacher.name like '%" + pat + "%'");
+    assignment_model->setFilter("teacher_name_2 like '%" + pat + "%'");
 }

@@ -132,17 +132,5 @@ void TeacherDialog::add_new_load()
 void TeacherDialog::filter(QString pat)
 {
     teacher_model->setFilter("teacher.name like '%" + pat + "%'");
-    qDebug()<<db.lastError();
     assignment_model->setFilter("teacher_name_2 like '%" + pat + "%'");
-    qDebug()<<assignment_model->record().fieldName(0);
-
-    qDebug()<<assignment_model->record().fieldName(1);
-
-    qDebug()<<assignment_model->record().fieldName(2);
-
-    qDebug()<<assignment_model->record().fieldName(3);
-
-
-
-
 }

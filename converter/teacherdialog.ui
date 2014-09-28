@@ -105,12 +105,12 @@
          </item>
          <item>
           <property name="text">
-           <string>IT</string>
+           <string>ENTC</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>E&amp;TC</string>
+           <string>IT</string>
           </property>
          </item>
         </widget>

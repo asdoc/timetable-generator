@@ -7,7 +7,6 @@ TeacherDialog::TeacherDialog(QWidget *parent) : QDialog(parent),
 {
     ui->setupUi(this);
     this->setWindowTitle("Add/Edit teacher");
-    this->setFixedSize(this->width(), this->height());
     ui->tableView->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
     ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
